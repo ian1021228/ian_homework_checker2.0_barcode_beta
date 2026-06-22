@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>作業點收系統 (條碼與雲端升級版)</title>
     
-    <link rel="manifest" href="/ian_homework_checker_2.0_app/manifest.json">
+    <!-- ✨ 修改：改為相對路徑，解決資料夾變更導致的 404 錯誤 -->
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#4f46e5">
     <link class="rounded-2xl shadow-lg shadow-indigo-500/10" rel="apple-touch-icon" href="icon.png">
 
@@ -45,7 +46,7 @@
             animation: shimmer 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
         }
 
-        /* ✨ 放大所有物件 1.5 倍 (16px * 1.5 = 24px) */
+        /* ✨ 放大所有物件 1.5 倍 (基礎 16px * 1.5 = 24px) */
         html { font-size: 24px !important; }
 
         /* 精製全站與特定容器滾動條 */
@@ -58,7 +59,8 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/ian_homework_checker_2.0_app/sw.js')
+                // ✨ 修改：改為相對路徑，解決 sw.js 找不到的錯誤
+                navigator.serviceWorker.register('./sw.js')
                     .then(reg => console.log('系統離線防護已啟動:', reg.scope))
                     .catch(err => console.log('離線快取載入失敗', err));
             });
@@ -87,7 +89,7 @@
                      <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">作業列表</h1>
                      <select id="class-selector" class="rounded-xl border-slate-200/80 shadow-sm shadow-slate-100/50 focus:border-indigo-500 focus:ring-indigo-500 py-2.5 px-4 bg-white font-extrabold text-indigo-600 cursor-pointer transition-all"></select>
                 </div>
-                <!-- ✨ 修改：統一高度、不換行並支援水平滑動 -->
+                <!-- ✨ 統一高度、不換行並支援水平滑動 -->
                 <div class="flex gap-2.5 overflow-x-auto w-full custom-scrollbar flex-nowrap items-center pb-2 pt-1 px-1">
                      <button id="install-pwa-btn" class="hidden bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold py-2.5 px-4 rounded-xl shadow-lg shadow-pink-500/10 hover:shadow-pink-500/20 transition-all transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">⬇️ 安裝 App</button>
                      
@@ -95,7 +97,6 @@
                      <button id="show-types-modal-btn" class="bg-white border border-slate-200 text-orange-500 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-orange-50/50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">作業種類</button>
                      <button id="contact-book-btn" class="bg-white border border-slate-200 text-purple-600 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-purple-50/50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">聯絡簿</button>
                      <button id="student-details-btn" class="bg-white border border-slate-200 text-emerald-600 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-emerald-50/50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">學生詳情</button>
-                     <!-- 設定條碼按鈕 -->
                      <button id="set-barcodes-btn" class="bg-white border border-slate-200 text-blue-600 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-blue-50/50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">🏷️ 條碼設定</button>
                      
                      <button id="manage-classes-btn" class="bg-white border border-slate-200 text-slate-500 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-slate-50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap flex-shrink-0">管理班級</button>
@@ -305,7 +306,7 @@
                     <div>
                         <h3 class="text-lg font-bold text-slate-800 mb-2">📝 智慧作業點收與掃描防呆</h3>
                         <ul class="list-disc pl-5 space-y-2">
-                            <li><b class="text-slate-700">自動規律條碼生成：</b>只要掃描 1 號與 2 號的條碼，系統自動幫你推算全班規律並填滿。</li>
+                            <li><b class="text-slate-700">自動規律條碼生成：</b>只要掃描前 3 號的條碼，系統自動幫你推算全班規律並填滿。</li>
                             <li><b class="text-slate-700">條碼掃描輸入：</b>新增條碼快速點收模組。連接條碼機掃描學生作業本，系統會自動定位座號並完成過帳。</li>
                             <li><b class="text-slate-700">果凍微動效：</b>點擊座號方格即會觸發立體軟膠回彈特效與光暈，色彩切換絲滑無閃爍。</li>
                         </ul>
@@ -373,7 +374,7 @@
                        <button id="google-logout-btn" class="w-full bg-white text-rose-500 border border-rose-200 font-bold py-2 px-4 rounded-xl hover:bg-rose-50 transition-colors text-xs">登出帳號</button>
                    </div>
                    
-                   <!-- ✨ 新增：空間使用量顯示區 -->
+                   <!-- ✨ 空間使用量顯示區 -->
                    <div id="cloud-storage-container" class="hidden mt-4 bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-sky-100 shadow-sm relative z-10">
                        <div class="flex justify-between items-center mb-2">
                            <span class="text-xs font-bold text-slate-600">雲端空間使用量 (單檔上限 1MB)</span>
@@ -601,9 +602,9 @@
 
 <!-- 改為 module 模組化載入，以便整合 Firebase SDK -->
 <script type="module">
-    // --- 整合 Firebase SDK (支援自帶配置與 Canvas 回退) ---
+    // --- 整合 Firebase SDK ---
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     let fbApp, fbAuth, fbDb;
@@ -611,8 +612,8 @@
     const globalAppId = typeof __app_id !== 'undefined' ? __app_id : 'homework-checker-pro';
 
     try {
-        // 提供你未來可替換的自訂配置，若是透過環境變數提供則自動採用
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+        // ✨ 已替換為你的專屬 Firebase 配置
+        const firebaseConfig = {
             apiKey: "AIzaSyDuBAZ5hEcrhpYt-XjhiXfi-wuow0Cq83A",
             authDomain: "cheker-barcode.firebaseapp.com",
             projectId: "cheker-barcode",
@@ -620,18 +621,17 @@
             messagingSenderId: "1093592859159",
             appId: "1:1093592859159:web:40c0741defbb074e4ad252"
         };
-        // 只有當設定檔看起來有效時才啟動 Firebase，避免白屏崩潰
-        if (firebaseConfig.apiKey && !firebaseConfig.apiKey.includes("請在此填入")) {
-            fbApp = initializeApp(firebaseConfig);
-            fbAuth = getAuth(fbApp);
-            fbDb = getFirestore(fbApp);
-            
-            // 監聽登入狀態
-            onAuthStateChanged(fbAuth, (user) => {
-                currentUser = user;
-                updateDataManagementUI();
-            });
-        }
+        
+        fbApp = initializeApp(firebaseConfig);
+        fbAuth = getAuth(fbApp);
+        fbDb = getFirestore(fbApp);
+        
+        // 監聽登入狀態
+        onAuthStateChanged(fbAuth, (user) => {
+            currentUser = user;
+            updateDataManagementUI();
+            updateStorageUsage(); // 登入後重整雲端容量圖表
+        });
     } catch(err) {
         console.warn("Firebase 初始化失敗:", err);
     }
@@ -835,15 +835,15 @@
     async function syncDataToCloud() {
         if (!currentUser || !fbDb) return;
         try {
-            // 使用專屬路徑以保證 Firebase Rules 可以順利放行 (支援 Canvas 預設規則與標準規則)
+            // 使用專屬路徑以保證 Firebase Rules 可以順利放行
             const docRef = doc(fbDb, 'artifacts', globalAppId, 'users', currentUser.uid, 'appData', 'mainDoc');
             await setDoc(docRef, { data: JSON.stringify(appData), updatedAt: new Date().toISOString() });
-            lastCloudError = null;
+            lastCloudError = null; // 重置錯誤狀態
         } catch (error) {
             console.error("Cloud sync error:", error);
-            lastCloudError = error.message;
+            lastCloudError = "同步失敗：" + error.message;
         }
-        updateStorageUsage();
+        updateStorageUsage(); // 無論成功失敗，更新一下雲端 UI 顯示
     }
 
     async function loadDataFromCloud(silent = false) {
@@ -927,7 +927,7 @@
         return `${year}/${month}/${day}`;
     }
 
-    // ✨ 計算與更新雲端容量顯示
+    // ✨ 計算與更新雲端容量顯示 (彩色儀表板)
     function updateStorageUsage() {
         if (!currentUser || !fbDb) return;
         
@@ -1537,7 +1537,7 @@
             renderBarcodeInputs(newMax, currentClass); showToast("人數列表已更新，請記得點擊儲存！", "info");
         });
 
-        // ✨ 智慧批次生成條碼邏輯
+        // ⚡ 智慧批次生成條碼邏輯
         bindClick('auto-gen-barcodes-btn', () => {
             const inputs = document.querySelectorAll('.barcode-input');
             if (inputs.length < 3) {
