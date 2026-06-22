@@ -1,0 +1,1748 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)https://ian1021228.github.io/ian_homework_checker2.0_app/#main -->
+<html lang="zh-TW" translate="no"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="google" content="notranslate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>作業點收系統 (本地版)</title>
+    
+    <link rel="manifest" href="https://ian1021228.github.io/ian_homework_checker_2.0_app/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <link class="rounded-2xl shadow-lg shadow-indigo-500/10" rel="apple-touch-icon" href="https://ian1021228.github.io/ian_homework_checker2.0_app/icon.png">
+
+    <script src="./作業點收系統 (本地版)_files/saved_resource"></script>
+    <link href="./作業點收系統 (本地版)_files/css2" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            padding-bottom: 40px;
+            /* 頂級漸層呼吸背景 */
+            background: radial-gradient(100% 100% at 50% 0%, rgba(99, 102, 241, 0.05) 0%, rgba(248, 250, 252, 0) 100%), #f8fafc;
+        }
+        @media screen and (max-width: 768px) {
+            input, select, textarea { font-size: 16px !important; }
+        }
+        
+        /* 頁面流暢切換貝氏動畫 */
+        .page-section {
+            animation: fadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 擬真黑板粉筆字微光特效 */
+        .chalk-text {
+            text-shadow: 0 0 2px rgba(255,255,255,0.25), 0 1px 1px rgba(0,0,0,0.2);
+            font-weight: 500;
+        }
+
+        /* 漸層動態掃光 */
+        @keyframes shimmer { 100% { transform: translateX(100%); } }
+        .hover-shimmer:hover .shimmer-bar {
+            animation: shimmer 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+        }
+
+        /* 精製全站與特定容器滾動條 */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 9999px; transition: background 0.2s; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(99, 102, 241, 0.45); }
+    </style>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/ian_homework_checker_2.0_app/sw.js')
+                    .then(reg => console.log('系統離線防護已啟動:', reg.scope))
+                    .catch(err => console.log('離線快取載入失敗', err));
+            });
+        }
+    </script>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width: 640px){.container{max-width:640px}}@media (min-width: 768px){.container{max-width:768px}}@media (min-width: 1024px){.container{max-width:1024px}}@media (min-width: 1280px){.container{max-width:1280px}}@media (min-width: 1536px){.container{max-width:1536px}}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.bottom-0{bottom:0px}.bottom-6{bottom:1.5rem}.left-0{left:0px}.left-4{left:1rem}.right-4{right:1rem}.right-6{right:1.5rem}.top-0{top:0px}.top-4{top:1rem}.z-10{z-index:10}.z-20{z-index:20}.z-50{z-index:50}.z-\[100\]{z-index:100}.z-\[110\]{z-index:110}.z-\[60\]{z-index:60}.z-\[90\]{z-index:90}.col-span-full{grid-column:1 / -1}.mx-4{margin-left:1rem;margin-right:1rem}.mx-auto{margin-left:auto;margin-right:auto}.mb-1\.5{margin-bottom:0.375rem}.mb-10{margin-bottom:2.5rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-5{margin-bottom:1.25rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-auto{margin-left:auto}.mr-1{margin-right:0.25rem}.mr-3{margin-right:0.75rem}.mr-4{margin-right:1rem}.mt-1{margin-top:0.25rem}.mt-1\.5{margin-top:0.375rem}.mt-2{margin-top:0.5rem}.mt-4{margin-top:1rem}.mt-5{margin-top:1.25rem}.mt-6{margin-top:1.5rem}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-12{height:3rem}.h-14{height:3.5rem}.h-2{height:0.5rem}.h-4{height:1rem}.h-5{height:1.25rem}.h-6{height:1.5rem}.h-7{height:1.75rem}.h-full{height:100%}.h-screen{height:100vh}.h-20{height:5rem}.h-8{height:2rem}.max-h-32{max-height:8rem}.max-h-60{max-height:15rem}.max-h-96{max-height:24rem}.max-h-\[90vh\]{max-height:90vh}.w-10{width:2.5rem}.w-12{width:3rem}.w-14{width:3.5rem}.w-2{width:0.5rem}.w-4{width:1rem}.w-5{width:1.25rem}.w-6{width:1.5rem}.w-7{width:1.75rem}.w-full{width:100%}.w-20{width:5rem}.w-8{width:2rem}.max-w-3xl{max-width:48rem}.max-w-7xl{max-width:80rem}.max-w-lg{max-width:32rem}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.max-w-xl{max-width:36rem}.flex-shrink-0{flex-shrink:0}.flex-grow{flex-grow:1}.scale-95{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes bounce{0%, 100%{transform:translateY(-25%);animation-timing-function:cubic-bezier(0.8,0,1,1)}50%{transform:none;animation-timing-function:cubic-bezier(0,0,0.2,1)}}.animate-bounce{animation:bounce 1s infinite}@keyframes ping{75%, 100%{transform:scale(2);opacity:0}}.animate-ping{animation:ping 1s cubic-bezier(0, 0, 0.2, 1) infinite}@keyframes spin{to{transform:rotate(360deg)}}.animate-spin{animation:spin 1s linear infinite}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;user-select:none}.list-disc{list-style-type:disc}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.grid-cols-7{grid-template-columns:repeat(7, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:0.25rem}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.space-x-3 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.75rem * var(--tw-space-x-reverse));margin-left:calc(0.75rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-2\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.625rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.625rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.space-y-8 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-visible{overflow:visible}.overflow-y-auto{overflow-y:auto}.overflow-x-hidden{overflow-x:hidden}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-md{border-radius:0.375rem}.rounded-xl{border-radius:0.75rem}.border{border-width:1px}.border-4{border-width:4px}.border-b{border-bottom-width:1px}.border-r{border-right-width:1px}.border-t{border-top-width:1px}.border-\[\#a0522d\]\/80{border-color:rgb(160 82 45 / 0.8)}.border-emerald-100{--tw-border-opacity:1;border-color:rgb(209 250 229 / var(--tw-border-opacity, 1))}.border-emerald-200\/60{border-color:rgb(167 243 208 / 0.6)}.border-indigo-100{--tw-border-opacity:1;border-color:rgb(224 231 255 / var(--tw-border-opacity, 1))}.border-indigo-600{--tw-border-opacity:1;border-color:rgb(79 70 229 / var(--tw-border-opacity, 1))}.border-rose-200{--tw-border-opacity:1;border-color:rgb(254 205 211 / var(--tw-border-opacity, 1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249 / var(--tw-border-opacity, 1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240 / var(--tw-border-opacity, 1))}.border-slate-200\/60{border-color:rgb(226 232 240 / 0.6)}.border-slate-200\/80{border-color:rgb(226 232 240 / 0.8)}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225 / var(--tw-border-opacity, 1))}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-white\/20{border-color:rgb(255 255 255 / 0.2)}.border-white\/30{border-color:rgb(255 255 255 / 0.3)}.border-slate-200\/40{border-color:rgb(226 232 240 / 0.4)}.border-t-transparent{border-top-color:transparent}.bg-\[\#2c3e50\]{--tw-bg-opacity:1;background-color:rgb(44 62 80 / var(--tw-bg-opacity, 1))}.bg-\[\#d2b48c\]{--tw-bg-opacity:1;background-color:rgb(210 180 140 / var(--tw-bg-opacity, 1))}.bg-amber-50{--tw-bg-opacity:1;background-color:rgb(255 251 235 / var(--tw-bg-opacity, 1))}.bg-blue-50{--tw-bg-opacity:1;background-color:rgb(239 246 255 / var(--tw-bg-opacity, 1))}.bg-cyan-50{--tw-bg-opacity:1;background-color:rgb(236 254 255 / var(--tw-bg-opacity, 1))}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245 / var(--tw-bg-opacity, 1))}.bg-emerald-50\/50{background-color:rgb(236 253 245 / 0.5)}.bg-indigo-100{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.bg-indigo-400{--tw-bg-opacity:1;background-color:rgb(129 140 248 / var(--tw-bg-opacity, 1))}.bg-indigo-50{--tw-bg-opacity:1;background-color:rgb(238 242 255 / var(--tw-bg-opacity, 1))}.bg-indigo-50\/50{background-color:rgb(238 242 255 / 0.5)}.bg-indigo-500{--tw-bg-opacity:1;background-color:rgb(99 102 241 / var(--tw-bg-opacity, 1))}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-orange-50{--tw-bg-opacity:1;background-color:rgb(255 247 237 / var(--tw-bg-opacity, 1))}.bg-purple-50{--tw-bg-opacity:1;background-color:rgb(250 245 255 / var(--tw-bg-opacity, 1))}.bg-rose-50{--tw-bg-opacity:1;background-color:rgb(255 241 242 / var(--tw-bg-opacity, 1))}.bg-rose-500{--tw-bg-opacity:1;background-color:rgb(244 63 94 / var(--tw-bg-opacity, 1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.bg-slate-50\/50{background-color:rgb(248 250 252 / 0.5)}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-900\/40{background-color:rgb(15 23 42 / 0.4)}.bg-slate-900\/50{background-color:rgb(15 23 42 / 0.5)}.bg-slate-900\/60{background-color:rgb(15 23 42 / 0.6)}.bg-slate-950\/85{background-color:rgb(2 6 23 / 0.85)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/10{background-color:rgb(255 255 255 / 0.1)}.bg-white\/20{background-color:rgb(255 255 255 / 0.2)}.bg-white\/80{background-color:rgb(255 255 255 / 0.8)}.bg-gradient-to-b{background-image:linear-gradient(to bottom, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.bg-gradient-to-tr{background-image:linear-gradient(to top right, var(--tw-gradient-stops))}.from-black\/50{--tw-gradient-from:rgb(0 0 0 / 0.5) var(--tw-gradient-from-position);--tw-gradient-to:rgb(0 0 0 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-blue-500{--tw-gradient-from:#3b82f6 var(--tw-gradient-from-position);--tw-gradient-to:rgb(59 130 246 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-indigo-500{--tw-gradient-from:#6366f1 var(--tw-gradient-from-position);--tw-gradient-to:rgb(99 102 241 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-indigo-600{--tw-gradient-from:#4f46e5 var(--tw-gradient-from-position);--tw-gradient-to:rgb(79 70 229 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-pink-500{--tw-gradient-from:#ec4899 var(--tw-gradient-from-position);--tw-gradient-to:rgb(236 72 153 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-white\/10{--tw-gradient-from:rgb(255 255 255 / 0.1) var(--tw-gradient-from-position);--tw-gradient-to:rgb(255 255 255 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.via-transparent{--tw-gradient-to:rgb(0 0 0 / 0)  var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), transparent var(--tw-gradient-via-position), var(--tw-gradient-to)}.to-black\/35{--tw-gradient-to:rgb(0 0 0 / 0.35) var(--tw-gradient-to-position)}.to-blue-600{--tw-gradient-to:#2563eb var(--tw-gradient-to-position)}.to-cyan-500{--tw-gradient-to:#06b6d4 var(--tw-gradient-to-position)}.to-rose-500{--tw-gradient-to:#f43f5e var(--tw-gradient-to-position)}.to-transparent{--tw-gradient-to:transparent var(--tw-gradient-to-position)}.to-violet-600{--tw-gradient-to:#7c3aed var(--tw-gradient-to-position)}.p-0{padding:0px}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-3\.5{padding:0.875rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-1{padding-left:0.25rem;padding-right:0.25rem}.px-1\.5{padding-left:0.375rem;padding-right:0.375rem}.px-10{padding-left:2.5rem;padding-right:2.5rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-3\.5{padding-left:0.875rem;padding-right:0.875rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-3\.5{padding-top:0.875rem;padding-bottom:0.875rem}.py-5{padding-top:1.25rem;padding-bottom:1.25rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.py-20{padding-top:5rem;padding-bottom:5rem}.pl-5{padding-left:1.25rem}.pr-1{padding-right:0.25rem}.pt-4{padding-top:1rem}.pt-5{padding-top:1.25rem}.pt-6{padding-top:1.5rem}.text-center{text-align:center}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-black{font-weight:900}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-relaxed{line-height:1.625}.tracking-tight{letter-spacing:-0.025em}.tracking-wide{letter-spacing:0.025em}.tracking-wider{letter-spacing:0.05em}.tracking-widest{letter-spacing:0.1em}.text-amber-500{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-blue-500{--tw-text-opacity:1;color:rgb(59 130 246 / var(--tw-text-opacity, 1))}.text-cyan-500{--tw-text-opacity:1;color:rgb(6 182 212 / var(--tw-text-opacity, 1))}.text-cyan-600{--tw-text-opacity:1;color:rgb(8 145 178 / var(--tw-text-opacity, 1))}.text-emerald-500{--tw-text-opacity:1;color:rgb(16 185 129 / var(--tw-text-opacity, 1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105 / var(--tw-text-opacity, 1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87 / var(--tw-text-opacity, 1))}.text-emerald-900{--tw-text-opacity:1;color:rgb(6 78 59 / var(--tw-text-opacity, 1))}.text-indigo-500{--tw-text-opacity:1;color:rgb(99 102 241 / var(--tw-text-opacity, 1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-indigo-700{--tw-text-opacity:1;color:rgb(67 56 202 / var(--tw-text-opacity, 1))}.text-indigo-900{--tw-text-opacity:1;color:rgb(49 46 129 / var(--tw-text-opacity, 1))}.text-orange-500{--tw-text-opacity:1;color:rgb(249 115 22 / var(--tw-text-opacity, 1))}.text-purple-500{--tw-text-opacity:1;color:rgb(168 85 247 / var(--tw-text-opacity, 1))}.text-purple-600{--tw-text-opacity:1;color:rgb(147 51 234 / var(--tw-text-opacity, 1))}.text-rose-500{--tw-text-opacity:1;color:rgb(244 63 94 / var(--tw-text-opacity, 1))}.text-rose-600{--tw-text-opacity:1;color:rgb(225 29 72 / var(--tw-text-opacity, 1))}.text-slate-100{--tw-text-opacity:1;color:rgb(241 245 249 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59 / var(--tw-text-opacity, 1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.placeholder-white\/40::placeholder{color:rgb(255 255 255 / 0.4)}.opacity-0{opacity:0}.opacity-75{opacity:0.75}.mix-blend-overlay{mix-blend-mode:overlay}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-inner{--tw-shadow:inset 0 2px 4px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:inset 0 2px 4px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-indigo-500\/10{--tw-shadow-color:rgb(99 102 241 / 0.1);--tw-shadow:var(--tw-shadow-colored)}.shadow-indigo-500\/25{--tw-shadow-color:rgb(99 102 241 / 0.25);--tw-shadow:var(--tw-shadow-colored)}.shadow-pink-500\/10{--tw-shadow-color:rgb(236 72 153 / 0.1);--tw-shadow:var(--tw-shadow-colored)}.shadow-slate-100\/50{--tw-shadow-color:rgb(241 245 249 / 0.5);--tw-shadow:var(--tw-shadow-colored)}.shadow-slate-900\/40{--tw-shadow-color:rgb(15 23 42 / 0.4);--tw-shadow:var(--tw-shadow-colored)}.shadow-slate-100{--tw-shadow-color:#f1f5f9;--tw-shadow:var(--tw-shadow-colored)}.backdrop-blur-lg{--tw-backdrop-blur:blur(16px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-md{--tw-backdrop-blur:blur(12px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.backdrop-blur-xl{--tw-backdrop-blur:blur(24px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.selection\:bg-yellow-500\/30 *::selection{background-color:rgb(234 179 8 / 0.3)}.selection\:bg-yellow-500\/30::selection{background-color:rgb(234 179 8 / 0.3)}.hover\:-translate-y-0\.5:hover{--tw-translate-y:-0.125rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.hover\:bg-black:hover{--tw-bg-opacity:1;background-color:rgb(0 0 0 / var(--tw-bg-opacity, 1))}.hover\:bg-cyan-50\/50:hover{background-color:rgb(236 254 255 / 0.5)}.hover\:bg-emerald-50\/50:hover{background-color:rgb(236 253 245 / 0.5)}.hover\:bg-emerald-500:hover{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-600:hover{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.hover\:bg-orange-50\/50:hover{background-color:rgb(255 247 237 / 0.5)}.hover\:bg-purple-50\/50:hover{background-color:rgb(250 245 255 / 0.5)}.hover\:bg-rose-50:hover{--tw-bg-opacity:1;background-color:rgb(255 241 242 / var(--tw-bg-opacity, 1))}.hover\:bg-rose-50\/50:hover{background-color:rgb(255 241 242 / 0.5)}.hover\:bg-rose-600:hover{--tw-bg-opacity:1;background-color:rgb(225 29 72 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-200:hover{--tw-bg-opacity:1;background-color:rgb(226 232 240 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-50:hover{--tw-bg-opacity:1;background-color:rgb(248 250 252 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-900:hover{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.hover\:bg-white\/30:hover{background-color:rgb(255 255 255 / 0.3)}.hover\:from-indigo-700:hover{--tw-gradient-from:#4338ca var(--tw-gradient-from-position);--tw-gradient-to:rgb(67 56 202 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.hover\:to-violet-700:hover{--tw-gradient-to:#6d28d9 var(--tw-gradient-to-position)}.hover\:text-indigo-600:hover{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.hover\:text-slate-600:hover{--tw-text-opacity:1;color:rgb(71 85 105 / var(--tw-text-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:shadow-lg:hover{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.hover\:shadow-xl:hover{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.hover\:shadow-indigo-500\/20:hover{--tw-shadow-color:rgb(99 102 241 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.hover\:shadow-pink-500\/20:hover{--tw-shadow-color:rgb(236 72 153 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.focus\:border-indigo-500:focus{--tw-border-opacity:1;border-color:rgb(99 102 241 / var(--tw-border-opacity, 1))}.focus\:bg-white:focus{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-indigo-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(99 102 241 / var(--tw-ring-opacity, 1))}.focus\:ring-white\/40:focus{--tw-ring-color:rgb(255 255 255 / 0.4)}.active\:scale-95:active{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){.sm\:mx-0{margin-left:0px;margin-right:0px}.sm\:mr-2{margin-right:0.5rem}.sm\:block{display:block}.sm\:grid-cols-6{grid-template-columns:repeat(6, minmax(0, 1fr))}.sm\:flex-row{flex-direction:row}.sm\:gap-2{gap:0.5rem}.sm\:p-10{padding:2.5rem}.sm\:p-4{padding:1rem}.sm\:p-6{padding:1.5rem}.sm\:p-8{padding:2rem}.sm\:px-8{padding-left:2rem;padding-right:2rem}.sm\:text-left{text-align:left}.sm\:text-4xl{font-size:2.25rem;line-height:2.5rem}}@media (min-width: 768px){.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:items-center{align-items:center}}@media (min-width: 1024px){.lg\:w-auto{width:auto}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.lg\:flex-row{flex-direction:row}.lg\:items-center{align-items:center}.lg\:p-10{padding:2.5rem}}</style></head>
+<body class="text-slate-800 antialiased overflow-x-hidden">
+
+    <!-- 頂部同步列：美化為浮動毛玻璃膠囊 -->
+    <div id="sync-banner" class="hidden mx-auto max-w-xl bg-slate-950/85 backdrop-blur-xl text-white px-5 py-3 rounded-2xl justify-between items-center text-sm z-[90] fixed top-4 left-4 right-4 shadow-2xl border border-white/10 animate-bounce">
+        <span class="font-bold tracking-wide flex items-center gap-1.5">
+            <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+            </span>
+            已偵測到本地儲存檔，請恢復安全連線。
+        </span>
+        <button id="resume-sync-btn" class="bg-indigo-500 text-white px-4 py-1.5 rounded-xl font-bold hover:bg-indigo-600 transition-all shadow-md shadow-indigo-500/25 flex-shrink-0">恢復同步</button>
+    </div>
+
+    <!-- 首頁 Main Page -->
+    <div id="main-page" class="container mx-auto max-w-7xl p-5 sm:p-8 lg:p-10 page-section">
+        <header class="flex flex-col gap-6 mb-10">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
+                <div class="flex items-center gap-4 flex-shrink-0">
+                     <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">作業列表</h1>
+                     <select id="class-selector" class="rounded-xl border-slate-200/80 shadow-sm shadow-slate-100/50 focus:border-indigo-500 focus:ring-indigo-500 py-2.5 px-4 bg-white font-extrabold text-indigo-600 cursor-pointer transition-all"><option value="mpj8id9fqlpiwbaqfph">602</option></select>
+                </div>
+                <div class="flex gap-2.5 flex-wrap justify-end w-full lg:w-auto">
+                     <button id="install-pwa-btn" class="hidden bg-gradient-to-r from-pink-500 to-rose-500 text-white font-bold py-2.5 px-4 rounded-xl shadow-lg shadow-pink-500/10 hover:shadow-pink-500/20 transition-all transform hover:-translate-y-0.5 whitespace-nowrap">⬇️ 安裝 App</button>
+                     
+                     <button id="intro-btn" class="bg-white border border-slate-200 text-slate-600 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-slate-50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap">網站介紹</button>
+                     <button id="show-types-modal-btn" class="bg-white border border-slate-200 text-orange-500 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-orange-50/50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap">作業種類</button>
+                     <button id="contact-book-btn" class="bg-white border border-slate-200 text-purple-600 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-purple-50/50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap">聯絡簿</button>
+                     <button id="student-details-btn" class="bg-white border border-slate-200 text-emerald-600 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-emerald-50/50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap">學生詳情</button>
+                     <button id="manage-classes-btn" class="bg-white border border-slate-200 text-slate-500 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-slate-50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap">管理班級</button>
+                     <button id="data-management-btn" class="bg-white border border-slate-200 text-cyan-600 font-bold py-2.5 px-4 rounded-xl shadow-sm hover:bg-cyan-50/50 transition-all transform hover:-translate-y-0.5 whitespace-nowrap">資料管理</button>
+                     <button id="show-add-modal-btn" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white font-bold py-2.5 px-5 rounded-xl shadow-xl shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5 whitespace-nowrap tracking-wide">✨ 新增作業</button>
+                </div>
+            </div>
+            <div class="flex justify-end items-center gap-2">
+                <label for="sort-homework" class="text-xs font-bold uppercase tracking-wider text-slate-400">排序方式：</label>
+                <select id="sort-homework" class="text-sm rounded-xl border-slate-200 shadow-sm bg-white font-semibold text-slate-600 py-1.5 px-3 cursor-pointer">
+                    <option value="time">建立時間 (新→舊)</option>
+                    <option value="missing">缺交人數 (多→少)</option>
+                </select>
+            </div>
+        </header>
+        <div id="homework-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse-once">
+                <div class="col-span-full flex flex-col items-center justify-center py-20 px-4">
+                    <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center mb-4 border border-slate-200/40 shadow-sm shadow-slate-100">
+                        <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <p id="empty-homework-message" class="text-center text-slate-400 font-semibold tracking-wide text-sm">目前的班級沒有點收項目，請點擊右上角 ✨ 新增作業</p>
+                </div></div>
+    </div>
+    
+    <!-- 載入動畫 -->
+    <div id="loading-page" class="flex flex-col items-center justify-center h-screen space-y-4 page-section hidden">
+        <div class="relative w-12 h-12">
+            <div class="absolute inset-0 rounded-full border-4 border-indigo-100"></div>
+            <div class="absolute inset-0 rounded-full border-4 border-indigo-600 border-t-transparent animate-spin"></div>
+        </div>
+        <p class="text-xs font-bold text-slate-400 tracking-widest uppercase">Loading System...</p>
+    </div>
+
+    <!-- 作業詳細座號頁 -->
+    <div id="detail-page" class="hidden container mx-auto max-w-7xl p-5 sm:p-8 lg:p-10 page-section h-screen flex flex-col" data-from="">
+        <header class="mb-6 flex-shrink-0">
+            <button id="back-to-main-btn" class="text-slate-400 hover:text-indigo-600 font-bold mb-4 block cursor-pointer transition-colors flex items-center gap-1 text-sm tracking-wide">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> 返回作業列表
+            </button>
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <h1 id="detail-homework-name" class="text-3xl sm:text-4xl font-black text-slate-900 truncate mr-4 tracking-tight"></h1>
+                <div class="flex gap-2 flex-shrink-0">
+                    <button id="show-all-done-btn" class="bg-emerald-50 text-emerald-600 border border-emerald-200/60 font-bold py-2 px-4 rounded-xl shadow-sm hover:bg-emerald-500 hover:text-white transition-all transform hover:-translate-y-0.5 whitespace-nowrap">檢視完成名單</button>
+                </div>
+            </div>
+            
+            <div class="mt-5 p-4 bg-white rounded-2xl border border-slate-200/60 flex flex-wrap items-center gap-3 shadow-sm">
+                <span class="text-sm font-bold text-slate-700 flex items-center gap-1.5">
+                    <svg class="w-4 h-4 text-indigo-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"></path></svg>
+                    全班狀態套用：
+                </span>
+                <select id="batch-status-select" class="text-sm rounded-xl border-slate-200 p-2 focus:ring-indigo-500 focus:border-indigo-500 font-bold bg-slate-50"></select>
+                <button id="batch-status-btn" class="bg-indigo-600 text-white text-sm px-5 py-2 rounded-xl shadow-md hover:bg-indigo-700 transition-colors font-bold tracking-wide">全部套用</button>
+                <span class="text-xs text-slate-400 ml-auto hidden sm:block font-medium">※ 將一鍵改變全班所有座號的作業狀態</span>
+            </div>
+
+            <div id="status-summary" class="flex flex-wrap gap-2.5 mt-5 text-sm font-bold"></div>
+        </header>
+        
+        <!-- 修復果凍邊緣裁切：將 overflow-hidden 改為 overflow-visible -->
+        <div class="flex-grow flex items-center justify-center w-full overflow-visible py-2 px-2">
+            <div id="student-grid" class="w-full cursor-pointer transition-all duration-300"></div>
+        </div>
+    </div>
+
+    <!-- 學生詳情統計頁 -->
+    <div id="student-details-page" class="hidden container mx-auto max-w-7xl p-5 sm:p-8 lg:p-10 page-section">
+        <header class="mb-8 flex flex-col gap-4">
+            <div>
+                 <button id="back-from-student-details-btn" class="text-slate-400 hover:text-indigo-600 font-bold mb-3 cursor-pointer flex items-center gap-1 text-sm tracking-wide">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> 返回作業列表
+                 </button>
+                <div class="flex justify-between items-center flex-wrap gap-4 mt-2">
+                    <h1 id="student-details-title" class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">學生詳情統計</h1>
+                    <button id="show-overall-all-done-btn" class="bg-gradient-to-r from-indigo-500 to-blue-600 text-white font-bold py-2.5 px-4 rounded-xl shadow-md shadow-indigo-500/10 hover:shadow-xl transition-all transform hover:-translate-y-0.5 text-sm whitespace-nowrap">
+                        🏆 檢視全勤學生名單
+                    </button>
+                </div>
+            </div>
+             <div class="flex justify-end items-center gap-2">
+                <label for="sort-student-detail" class="text-xs font-bold text-slate-400 uppercase tracking-wider">排序方式：</label>
+                <select id="sort-student-detail" class="text-sm rounded-xl border-slate-200 bg-white font-semibold text-slate-600 py-1.5 px-3">
+                    <option value="number">座號 (小→大)</option>
+                    <option value="missing">缺交數量 (多→少)</option>
+                </select>
+            </div>
+        </header>
+        <div id="student-details-list" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+    </div>
+
+    <!-- 作業種類管理頁 -->
+    <div id="homework-types-page" class="hidden container mx-auto max-w-7xl p-5 sm:p-8 lg:p-10 page-section">
+        <header class="mb-8">
+            <button id="back-from-types-btn" class="text-slate-400 hover:text-indigo-600 font-bold mb-3 cursor-pointer flex items-center gap-1 text-sm tracking-wide">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> 返回作業列表
+            </button>
+            <div class="flex justify-between items-center mt-2">
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">作業種類管理</h1>
+                <button id="add-new-type-btn" class="bg-slate-900 text-white font-bold py-2.5 px-4 rounded-xl shadow-md hover:bg-black transition-all transform hover:-translate-y-0.5 text-sm whitespace-nowrap flex-shrink-0">
+                    + 新增自訂種類
+                </button>
+            </div>
+            <p class="text-slate-400 mt-1.5 text-sm font-medium">配置適用於不同學科的作業狀態。每個種類最多支援 4 個核心狀態切換。</p>
+        </header>
+        <div id="types-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    </div>
+
+    <!-- 聯絡簿頁面 -->
+    <div id="contact-book-page" class="hidden container mx-auto max-w-7xl p-5 sm:p-8 lg:p-10 page-section">
+         <header class="mb-6">
+            <button id="back-from-contact-book-btn" class="text-slate-400 hover:text-indigo-600 font-bold mb-3 cursor-pointer flex items-center gap-1 text-sm tracking-wide">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> 返回作業列表
+            </button>
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mt-2">
+                <div class="flex-shrink-0">
+                    <h1 id="contact-book-title" class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">聯絡簿</h1>
+                    <p id="contact-book-date" class="text-slate-400 mt-1 font-bold text-sm tracking-wide"></p>
+                </div>
+                <div class="flex gap-2.5 flex-wrap items-center justify-end w-full lg:w-auto">
+                    <!-- 字體與行距調整控制組 -->
+                    <div class="flex bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                        <button id="font-decrease-btn" class="px-3.5 py-2 text-slate-500 hover:bg-slate-50 border-r border-slate-200 font-bold transition-colors" title="縮小字體">A-</button>
+                        <button id="font-increase-btn" class="px-3.5 py-2 text-slate-500 hover:bg-slate-50 font-bold transition-colors" title="放大字體">A+</button>
+                    </div>
+                    <div class="flex bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mr-1 sm:mr-2">
+                        <button id="lineheight-decrease-btn" class="px-3.5 py-2 text-slate-500 hover:bg-slate-50 border-r border-slate-200 font-bold transition-colors" title="縮小行距">↕️-</button>
+                        <button id="lineheight-increase-btn" class="px-3.5 py-2 text-slate-500 hover:bg-slate-50 font-bold transition-colors" title="加大行距">↕️+</button>
+                    </div>
+
+                    <button id="apply-yesterday-btn" class="bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-bold py-2.5 px-4 rounded-xl shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 whitespace-nowrap text-sm">📋 套用昨日</button>
+                    <button id="open-date-picker-btn" class="bg-slate-800 text-white font-bold py-2.5 px-4 rounded-xl shadow-md hover:bg-slate-900 transition-all transform hover:-translate-y-0.5 whitespace-nowrap text-sm flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg> 選擇日期
+                    </button>
+                    <button id="clear-contact-book-btn" class="bg-white text-rose-500 border border-rose-200 font-bold py-2.5 px-4 rounded-xl hover:bg-rose-50/50 transition-colors whitespace-nowrap text-sm">清空本日</button>
+                    <button id="clear-all-contact-book-btn" class="bg-rose-50 text-rose-600 border border-rose-200 font-bold py-2.5 px-4 rounded-xl hover:bg-rose-600 hover:text-white transition-all whitespace-nowrap text-sm">清空全部記錄</button>
+                </div>
+            </div>
+        </header>
+        
+        <!-- 擬真木框精烤反光黑板 -->
+        <div class="bg-[#d2b48c] p-4 sm:p-6 rounded-3xl shadow-2xl border-4 border-[#a0522d]/80" style="background-image: url(&#39;https://www.transparenttextures.com/patterns/wood-pattern.png&#39;);">
+            <div class="bg-[#2c3e50] rounded-2xl p-6 sm:p-8 flex flex-col relative overflow-hidden" style="min-height: 60vh; border: 1px solid rgba(255,255,255,0.1); box-shadow: inset 0 0 45px rgba(0,0,0,0.6), inset 0 2px 10px rgba(255,255,255,0.08);">
+                
+                <!-- 光澤感：斜向高級折射鏡面反光疊層 -->
+                <div class="absolute inset-0 bg-gradient-to-tr from-white/10 via-transparent to-black/35 pointer-events-none mix-blend-overlay z-10"></div>
+                <!-- 模擬木框陰影 -->
+                <div class="absolute top-0 left-0 w-full h-5 bg-gradient-to-b from-black/50 to-transparent pointer-events-none z-10"></div>
+                
+                <!-- 黑板內容區，動態接收 fontSize 與 lineHeight -->
+                <div id="blackboard-content" class="flex-grow text-slate-100 font-mono chalk-text selection:bg-yellow-500/30 relative z-20" style="font-size: 1.25rem; line-height: 1.75;"></div>
+                
+                <form id="add-contact-item-form" class="mt-8 flex gap-3 relative z-20">
+                    <input type="text" id="contact-book-input" class="flex-grow bg-white/10 backdrop-blur-md text-white border border-white/20 rounded-xl p-3.5 sm:p-4 focus:outline-none focus:ring-2 focus:ring-white/40 placeholder-white/40 transition-all font-mono shadow-inner" placeholder="在此輸入聯絡事項..." autocomplete="off">
+                    <button type="submit" class="bg-white/20 hover:bg-white/30 backdrop-blur-md text-white border border-white/30 font-bold py-3.5 px-6 sm:px-8 rounded-xl shadow-lg transition-all flex-shrink-0 tracking-wider">寫上黑板</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals (全屏高級毛玻璃模糊背景) 終極介紹升級版 -->
+    <div id="intro-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-lg flex items-center justify-center p-4 sm:p-6 hidden modal z-[100] opacity-0">
+        <div class="modal-content bg-white rounded-3xl shadow-2xl shadow-slate-900/40 p-0 w-full max-w-3xl transform scale-95 max-h-[90vh] flex flex-col border border-slate-100 overflow-hidden">
+            <!-- Modal Header -->
+            <div class="bg-slate-50 px-8 py-6 border-b border-slate-200 flex justify-between items-center flex-shrink-0">
+                <h2 class="text-2xl font-extrabold text-slate-800 flex items-center gap-3">
+                    <span class="bg-indigo-100 text-indigo-600 p-2 rounded-xl"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg></span>
+                    作業點收系統 - 終極功能指南
+                </h2>
+                <button class="cancel-btn text-slate-400 hover:text-slate-600 bg-slate-100 hover:bg-slate-200 p-2 rounded-full transition-colors">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Modal Body (Detailed content) -->
+            <div class="overflow-y-auto p-8 space-y-8 text-sm text-slate-600 flex-grow font-medium custom-scrollbar">
+                
+                <!-- Section 1 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1"><div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg></div></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">📱 安裝與跨平台體驗 (PWA)</h3>
+                        <p class="leading-relaxed">點擊首頁右上角的「安裝 App」即可將系統加至主畫面。安裝後將移除瀏覽器網址列，為您提供無干擾的<b class="text-indigo-500">全螢幕沉浸式體驗</b>，並且完整支援離線操作模式。</p>
+                    </div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1"><div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg></div></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">🔐 隱私與硬碟同步技術</h3>
+                        <p class="leading-relaxed">本系統導入最先進的 <code class="bg-slate-100 px-1.5 py-0.5 rounded text-rose-500 font-bold">File System Access API</code>。只要綁定本機的 JSON 檔案，所有的操作變更都會<b>即時覆寫至您的硬碟中</b>，實現 0 雲端外洩、100% 隱私安全的本機端資料庫架構。</p>
+                    </div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1"><div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg></div></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">📝 智慧作業點收與防呆</h3>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li><b class="text-slate-700">區間缺號解析：</b>支援「單號」與「範圍」混合輸入（例：<code class="bg-slate-100 px-1 py-0.5 rounded">4, 15-20</code>），系統將自動為您生成完美的座號矩陣，並自動記憶該班級配置。</li>
+                            <li><b class="text-slate-700">全班一鍵變更：</b>提供下拉選單，能瞬間將全班狀態統一改為「已繳交」或「已完成」。</li>
+                            <li><b class="text-slate-700">果凍微動效：</b>點擊座號方格即會觸發立體軟膠回彈特效與光暈，色彩切換絲滑無閃爍。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1"><div class="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center text-orange-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path></svg></div></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">🎨 作業種類自訂與美學標籤</h3>
+                        <p class="leading-relaxed">在「作業種類」設定中，您可以自由建立各科專用的點收類別（至多配置 4 種核心狀態切換）。點擊色點即可更換高級標籤配色，並能自訂哪種狀態才算作「完成」。</p>
+                    </div>
+                </div>
+
+                <!-- Section 5 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1"><div class="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></div></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">🏫 擬真黑板聯絡簿與行距調節</h3>
+                        <ul class="list-disc pl-5 space-y-2">
+                            <li><b class="text-slate-700">視覺與版面自訂：</b>極致烤漆黑板與粉筆光澤，<b class="text-indigo-500">同時支援 A+/A- (字體縮放) 以及 ↕️+/↕️- (行距縮放)</b>，確保在各式投影螢幕上皆具完美閱讀性，且系統會自動記憶您的喜好。</li>
+                            <li><b class="text-slate-700">連動整合：</b>滑鼠懸停於聯絡事項，點擊「📖」按鈕，即可將該行文字瞬間無縫轉發為今日的作業點收清單。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Section 6 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1"><div class="w-10 h-10 rounded-full bg-cyan-50 flex items-center justify-center text-cyan-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2m0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg></div></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">📊 學生詳情與全勤分析</h3>
+                        <p class="leading-relaxed">「學生詳情」如同您的控制儀表板，將彙整該班級「所有未完成」的作業與狀態，並提供<b class="text-slate-700">🏆 全勤榮譽名單</b>，讓表現優異的學生一目瞭然。</p>
+                    </div>
+                </div>
+
+                <!-- Section 7 -->
+                <div class="flex gap-4">
+                    <div class="flex-shrink-0 mt-1"><div class="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div></div>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">⏳ 時光機與自動防呆救援</h3>
+                        <p class="leading-relaxed">在「資料管理」中配備了強大的時光機功能。系統於每日背景輪替保留前三天的快取紀錄，若不慎誤刪班級或作業，點擊還原即可瞬間救回。您也能手動匯出 JSON 備份檔至雲端封存。</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <!-- Modal Footer -->
+            <div class="bg-slate-50 px-8 py-5 border-t border-slate-200 flex justify-end flex-shrink-0">
+                <button type="button" class="cancel-btn bg-slate-800 text-white font-bold py-3 px-10 rounded-xl hover:bg-slate-900 shadow-md transition-transform active:scale-95">開始使用</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 歡迎選擇視窗 -->
+    <div id="welcome-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 hidden modal z-[100] opacity-0">
+        <div class="modal-content bg-white rounded-3xl shadow-2xl p-8 sm:p-10 w-full max-w-lg transform scale-95 border border-slate-100 text-center sm:text-left">
+            <div class="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6 mx-auto sm:mx-0">
+                <svg class="w-7 h-7 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+            </div>
+            <h2 class="text-3xl font-black mb-3 text-slate-900 tracking-tight">歡迎使用作業點收系統 🎉</h2>
+            <p class="text-slate-500 mb-8 leading-relaxed font-medium">
+                本系統採用最新的<b>本地儲存技術</b>，無需註冊或連線雲端資料庫。<br><br>
+                建議您建立一個專屬的 <span class="font-mono bg-slate-50 border border-slate-200 px-2 py-0.5 rounded-md text-rose-500 font-bold text-xs">.json</span> 檔案來保存資料，系統會自動讀取與覆蓋更新！
+            </p>
+            <div class="flex flex-col sm:flex-row justify-end gap-3 font-bold">
+                <button id="welcome-skip-btn" class="bg-slate-100 text-slate-600 py-3 px-6 rounded-xl hover:bg-slate-200 transition-colors">
+                    存在瀏覽器就好
+                </button>
+                <button id="welcome-link-btn" class="bg-indigo-600 text-white py-3 px-6 rounded-xl shadow-lg shadow-indigo-500/10 hover:bg-indigo-700 hover:shadow-xl transition-all">
+                    建立或綁定本地檔案
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 資料管理 Modal -->
+    <div id="data-management-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden modal z-50 opacity-0">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md transform scale-95 max-h-[90vh] overflow-y-auto border border-slate-100 custom-scrollbar">
+           <h2 class="text-2xl font-extrabold mb-6 text-slate-900">資料管理</h2>
+           
+           <div class="space-y-5">
+               <div class="p-5 border border-indigo-100 rounded-2xl bg-indigo-50/50 shadow-sm">
+                   <h3 class="font-bold text-indigo-900 mb-2 flex items-center gap-1.5">自動儲存設定</h3>
+                   <div id="current-file-status" class="text-sm text-indigo-700 mb-4 font-bold leading-relaxed">
+                       狀態：未綁定本地檔案 (資料僅存在瀏覽器)
+                   </div>
+                   <button id="link-file-btn" class="w-full bg-indigo-600 text-white font-bold py-2.5 px-4 rounded-xl hover:bg-indigo-700 shadow-sm mb-2 transition-colors">建立 / 綁定本地儲存檔案</button>
+                   <button id="unlink-file-btn" class="w-full bg-white text-rose-500 border border-rose-200 font-bold py-2.5 px-4 rounded-xl hover:bg-rose-50 transition-colors hidden">解除安全連結</button>
+               </div>
+
+               <div class="relative flex py-2 items-center">
+                   <div class="flex-grow border-t border-slate-200"></div>
+                   <span class="flex-shrink-0 mx-4 text-slate-400 text-xs font-bold tracking-wider uppercase">時光機自動備份</span>
+                   <div class="flex-grow border-t border-slate-200"></div>
+               </div>
+               <div class="p-5 border border-emerald-100 rounded-2xl bg-emerald-50/50 shadow-sm">
+                   <h3 class="font-bold text-emerald-900 mb-2">還原最近的自動備份</h3>
+                   <p class="text-xs text-emerald-700 mb-3 leading-relaxed">系統每日會自動在瀏覽器保留備份（最多保留 3 天）。若發生誤刪，可點擊下方紀錄救回資料。</p>
+                   <div id="auto-backup-list" class="space-y-2 max-h-32 overflow-y-auto pr-1 custom-scrollbar"></div>
+               </div>
+
+               <div class="relative flex py-2 items-center">
+                   <div class="flex-grow border-t border-slate-200"></div>
+                   <span class="flex-shrink-0 mx-4 text-slate-400 text-xs font-bold tracking-wider uppercase">手動匯出與匯入</span>
+                   <div class="flex-grow border-t border-slate-200"></div>
+               </div>
+               <div class="p-5 border border-slate-200 rounded-2xl bg-slate-50/50 shadow-sm">
+                   <h3 class="font-bold text-slate-800 mb-3">匯出選擇範圍</h3>
+                   <div class="mb-5 space-y-2.5">
+                       <label class="flex items-center text-sm text-slate-700 cursor-pointer font-semibold">
+                           <input type="checkbox" id="export-hw-chk" checked="" class="mr-3 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                           作業與班級名單
+                       </label>
+                       <label class="flex items-center text-sm text-slate-700 cursor-pointer font-semibold">
+                           <input type="checkbox" id="export-types-chk" checked="" class="mr-3 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                           作業種類設定
+                       </label>
+                       <label class="flex items-center text-sm text-slate-700 cursor-pointer font-semibold">
+                           <input type="checkbox" id="export-contact-chk" checked="" class="mr-3 h-4 w-4 text-indigo-600 border-slate-300 rounded focus:ring-indigo-500">
+                           聯絡簿 (包含 30 天內記錄)
+                       </label>
+                   </div>
+                   <button id="export-data-btn" class="w-full bg-slate-800 text-white font-bold py-2.5 px-4 rounded-xl hover:bg-slate-900 transition-colors mb-5">下載為 JSON 檔</button>
+                   
+                   <h3 class="font-bold text-slate-800 mb-2 border-t border-slate-200 pt-5">手動還原</h3>
+                   <p class="text-xs text-rose-500 mb-3 font-bold">警告：這將覆蓋現有資料！</p>
+                   <input type="file" id="import-file-input" accept=".json" class="hidden">
+                   <button id="trigger-import-btn" class="w-full bg-white text-rose-600 border border-rose-200 font-bold py-2.5 px-4 rounded-xl hover:bg-rose-50 shadow-sm transition-colors">選擇檔案並覆蓋還原</button>
+               </div>
+           </div>
+
+           <div class="flex justify-end pt-5 mt-5 border-t border-slate-100">
+               <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-2.5 px-6 rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+           </div>
+       </div>
+    </div>
+
+    <!-- 新增作業 Modal -->
+    <div id="add-homework-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden modal z-50 opacity-0">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md transform scale-95 border border-slate-100">
+            <h2 id="homework-modal-title" class="text-2xl font-extrabold mb-6 text-slate-900">新增作業</h2>
+            <form id="add-homework-form" class="space-y-5">
+                <input type="hidden" id="edit-homework-id">
+                <div>
+                    <label for="homework-name" class="block text-sm font-bold text-slate-700 mb-1.5">作業名稱</label>
+                    <input type="text" id="homework-name" class="block w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white shadow-sm p-3 text-base font-bold transition-colors" required="" placeholder="例如：數學習作 P10">
+                </div>
+                <div id="homework-type-container">
+                    <label for="homework-type-select" class="block text-sm font-bold text-slate-700 mb-1.5">作業種類</label>
+                    <select id="homework-type-select" class="block w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white shadow-sm p-3 text-base font-bold transition-colors cursor-pointer"><option value="default">一般作業</option><option value="custom-1779608269975">456</option></select>
+                </div>
+                <div id="student-count-container" class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label for="student-count" class="block text-sm font-bold text-slate-700 mb-1.5">最後座號</label>
+                        <input type="number" id="student-count" min="1" max="100" class="block w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white shadow-sm p-3 text-base font-bold transition-colors" required="" placeholder="例如：30">
+                    </div>
+                    <div>
+                        <label for="homework-missing-seats" class="block text-sm font-bold text-slate-700 mb-1.5">班級缺號 (選填)</label>
+                        <input type="text" id="homework-missing-seats" class="block w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white shadow-sm p-3 text-base font-bold transition-colors" placeholder="例如: 15,16,20-25">
+                    </div>
+                </div>
+                <p id="missing-seats-hint" class="text-xs text-slate-400 mt-1 leading-relaxed font-medium">※ 支援逗號隔開 (例: 1,3) 或連字號設定範圍 (例: 20-25)。<br>※ 填寫的缺號將被直接排除於此作業名單中。</p>
+
+                <div class="flex justify-end space-x-3 pt-5 mt-2 border-t border-slate-100">
+                    <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-2.5 px-5 rounded-xl hover:bg-slate-200 transition-colors">取消</button>
+                    <button type="submit" class="bg-indigo-600 text-white font-bold py-2.5 px-6 rounded-xl shadow-md hover:bg-indigo-700 transition-colors">儲存作業</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 管理班級 Modal -->
+    <div id="manage-classes-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden modal z-50 opacity-0">
+         <div class="modal-content bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md transform scale-95 border border-slate-100">
+            <h2 class="text-2xl font-extrabold mb-6 text-slate-900">管理班級</h2>
+            <form id="add-class-form" class="flex gap-2 mb-6">
+                 <input type="text" id="class-name" class="flex-grow block w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white shadow-sm p-3 text-base font-medium transition-colors" required="" placeholder="例如：六年二班">
+                 <button type="submit" class="bg-slate-800 text-white font-bold py-3 px-5 rounded-xl shadow-md hover:bg-slate-900 transition-colors whitespace-nowrap">新增班級</button>
+            </form>
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 font-black">現有班級清單</h3>
+            <div id="class-list" class="space-y-2 max-h-60 overflow-y-auto pr-1 custom-scrollbar"></div>
+            <div class="flex justify-end pt-5 mt-5 border-t border-slate-100">
+                <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-2.5 px-6 rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 月曆日期選擇 Modal -->
+    <div id="date-picker-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-4 hidden z-50 opacity-0">
+        <div id="date-picker-content" class="bg-white rounded-3xl shadow-2xl p-6 w-full max-w-sm transform scale-95">
+            <div class="flex items-center justify-between mb-5">
+                <button id="prev-month-btn" class="p-2 rounded-xl hover:bg-slate-100 text-slate-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <h3 id="current-month-year" class="text-lg font-bold text-slate-800"></h3>
+                <button id="next-month-btn" class="p-2 rounded-xl hover:bg-slate-100 text-slate-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
+            </div>
+            <div class="grid grid-cols-7 gap-1 text-center text-xs font-bold text-slate-400 mb-3">
+                <div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>
+            </div>
+            <div id="calendar-grid" class="grid grid-cols-7 gap-1 sm:gap-2"></div>
+            <div class="flex justify-end mt-6 pt-4 border-t border-slate-100">
+                <button id="close-date-picker-btn" class="bg-slate-100 text-slate-600 font-bold py-2.5 px-6 rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 已完成名單 Modal -->
+    <div id="all-done-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden modal z-50 opacity-0">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg transform scale-95 border border-slate-100">
+            <h2 class="text-2xl font-extrabold mb-6 text-slate-900">完成 / 已繳交學生名單</h2>
+            <div id="all-done-list" class="grid grid-cols-4 sm:grid-cols-6 gap-3 max-h-96 overflow-y-auto pr-1 custom-scrollbar"></div>
+            <div class="flex justify-end pt-6 mt-4 border-t border-slate-100">
+                <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-2.5 px-6 rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 全勤名單 Modal -->
+    <div id="overall-all-done-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden modal z-50 opacity-0">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg transform scale-95 border border-slate-100">
+            <h2 class="text-2xl font-extrabold mb-2 text-slate-900">🏆 全勤榮譽名單</h2>
+            <p class="text-sm text-slate-500 mb-6">此處列出在當前班級的所有作業中，狀態皆為「已完成/已繳交」的學生。</p>
+            <div id="overall-all-done-list" class="grid grid-cols-4 sm:grid-cols-6 gap-3 max-h-96 overflow-y-auto pr-1 custom-scrollbar"></div>
+            <div class="flex justify-end pt-6 mt-4 border-t border-slate-100">
+                <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-2.5 px-6 rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 確認視窗 Modal -->
+    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden confirm-modal z-[60] opacity-0">
+        <div class="confirm-modal-content bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm transform scale-95 border border-slate-100">
+            <h2 id="confirm-title" class="text-xl font-extrabold mb-3 text-slate-900">確定要執行嗎？</h2>
+            <p id="confirm-message" class="text-slate-600 mb-8 leading-relaxed font-medium"></p>
+            <div class="flex justify-end space-x-3">
+                <button id="confirm-cancel" class="bg-slate-100 text-slate-600 font-bold py-2.5 px-5 rounded-xl hover:bg-slate-200 transition-colors">取消</button>
+                <button id="confirm-ok" class="bg-rose-500 text-white font-bold py-2.5 px-6 rounded-xl shadow-md hover:bg-rose-600 transition-colors">確定執行</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 頂級 Toast 氣泡提示容器 -->
+    <div id="toast-container" class="fixed bottom-6 right-6 flex flex-col gap-2 z-[110] pointer-events-none"></div>
+
+    <footer class="fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-md border-t border-slate-200 text-slate-400 text-xs font-bold text-center py-2.5 z-20 select-none tracking-wide">
+        Created by Boai 602 王禹硯
+    </footer>
+
+<script>
+    // --- 擬真 Toast 提示功能 ---
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+        const toast = document.createElement('div');
+        toast.className = `transform translate-y-4 opacity-0 transition-all duration-300 flex items-center gap-2.5 px-4.5 py-3 rounded-2xl shadow-lg border text-sm font-bold z-[100] ${
+            type === 'success' ? 'bg-emerald-50 text-emerald-800 border-emerald-100' :
+            type === 'error' ? 'bg-rose-50 text-rose-800 border-rose-100' :
+            'bg-slate-900 text-white border-slate-800'
+        }`;
+        
+        let icon = '';
+        if (type === 'success') {
+            icon = '<svg class="w-4.5 h-4.5 text-emerald-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>';
+        } else if (type === 'error') {
+            icon = '<svg class="w-4.5 h-4.5 text-rose-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" /></svg>';
+        } else {
+            icon = '<svg class="w-4.5 h-4.5 text-indigo-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" /></svg>';
+        }
+
+        toast.innerHTML = `${icon}<span>${message}</span>`;
+        container.appendChild(toast);
+        
+        setTimeout(() => toast.classList.remove('translate-y-4', 'opacity-0'), 10);
+        setTimeout(() => {
+            toast.classList.add('translate-y-4', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3200);
+    }
+
+    // --- 擬真 Alert 視窗功能 ---
+    function showAlertModal(title, message) {
+        document.getElementById('confirm-title').textContent = title;
+        document.getElementById('confirm-message').textContent = message;
+        
+        const confirmOk = document.getElementById('confirm-ok');
+        const confirmCancel = document.getElementById('confirm-cancel');
+        
+        confirmCancel.classList.add('hidden'); // 隱藏取消按鈕，僅保留確認
+        openModal(document.getElementById('confirm-modal'));
+        
+        const okHandler = () => {
+            closeModal(document.getElementById('confirm-modal'));
+            cleanup();
+        };
+        const cleanup = () => {
+            confirmOk.removeEventListener('click', okHandler);
+            confirmCancel.classList.remove('hidden'); // 安全還原取消按鈕
+        };
+        confirmOk.addEventListener('click', okHandler);
+    }
+
+    // --- 預設常數與資料結構 ---
+    const DEFAULT_TYPES = [
+        {
+            id: 'default',
+            name: '一般作業',
+            statuses: [
+                { key: 'not-submitted', text: '未繳交', color: 'bg-slate-200', textColor: 'text-slate-500', isCompleted: false },
+                { key: 'submitted', text: '已繳交', color: 'bg-blue-500', textColor: 'text-white', isCompleted: true },
+                { key: 'needs-correction', text: '待訂正', color: 'bg-amber-400', textColor: 'text-amber-950', isCompleted: false },
+                { key: 'completed', text: '已完成', color: 'bg-emerald-500', textColor: 'text-white', isCompleted: true }
+            ]
+        },
+        {
+            id: 'reading',
+            name: '閱讀作業',
+            statuses: [
+                { key: 'unread', text: '未閱讀', color: 'bg-slate-200', textColor: 'text-slate-500', isCompleted: false },
+                { key: 'read', text: '已閱讀', color: 'bg-emerald-500', textColor: 'text-white', isCompleted: true }
+            ]
+        }
+    ];
+
+    const STATUS_COLORS = [
+        { class: 'bg-slate-200', textClass: 'text-slate-500', name: '灰' },
+        { class: 'bg-blue-500', textClass: 'text-white', name: '藍' },
+        { class: 'bg-emerald-500', textClass: 'text-white', name: '綠' },
+        { class: 'bg-amber-400', textClass: 'text-amber-950', name: '黃' },
+        { class: 'bg-rose-500', textClass: 'text-white', name: '紅' },
+        { class: 'bg-purple-500', textClass: 'text-white', name: '紫' }
+    ];
+
+    let appData = { classes: [], homeworks: [], homeworkTypes: JSON.parse(JSON.stringify(DEFAULT_TYPES)) };
+    let currentClassId = localStorage.getItem('currentClassId') || null;
+    let currentHomeworkId = null;
+    let selectedDate = new Date();
+    let calendarDate = new Date();
+    
+    // 黑板樣式參數 (支援 localStorage 持久化記憶)
+    let blackboardFontSize = parseFloat(localStorage.getItem('hw_pref_fontSize')) || 1.25;
+    let blackboardLineHeight = parseFloat(localStorage.getItem('hw_pref_lineHeight')) || 1.75;
+    
+    let currentPage = 'main-page';
+    let scrollPositions = {};
+    let isSaving = false;
+    let saveTimeout = null;
+    let fileHandle = null;
+
+    window.addEventListener('beforeunload', (e) => {
+        if (isSaving) {
+            e.preventDefault(); e.returnValue = '資料同步中，此時關閉可能導致硬碟檔案損毀！';
+        }
+    });
+    
+    window.addEventListener('storage', (e) => {
+        if (e.key === 'homeworkAppData' && e.newValue) {
+            try {
+                const newData = JSON.parse(e.newValue);
+                if (newData && newData.classes) {
+                    appData = newData; fixDates(appData); reRenderCurrentPage();
+                }
+            } catch(err) { console.error(err); }
+        }
+    });
+
+    document.addEventListener('visibilitychange', async () => {
+        if (document.visibilityState === 'visible' && fileHandle && !isSaving) {
+            try {
+                if ((await fileHandle.queryPermission({ mode: 'read' })) === 'granted') {
+                    await syncFromFileHandleSilently();
+                }
+            } catch (e) {}
+        }
+    });
+
+    function reRenderCurrentPage() {
+        if (currentPage === 'main-page') { renderClassSelector(); renderHomeworkList(); renderClassList(); } 
+        else if (currentPage === 'detail-page') {
+            if (currentHomeworkId && appData.homeworks.find(h => h.id === currentHomeworkId)) renderStudentGrid(currentHomeworkId);
+            else showMainPage();
+        } 
+        else if (currentPage === 'student-details-page') renderStudentDetailsPage();
+        else if (currentPage === 'contact-book-page') renderContactBookItems();
+        else if (currentPage === 'homework-types-page') renderHomeworkTypesPage();
+        updateDataManagementUI();
+    }
+
+    function getDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open('HomeworkAppLocalDB', 1);
+            request.onupgradeneeded = (e) => e.target.result.createObjectStore('settings');
+            request.onsuccess = (e) => resolve(e.target.result);
+            request.onerror = (e) => reject(e.target.error);
+        });
+    }
+
+    async function saveFileHandle(handle) {
+        const db = await getDB();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction('settings', 'readwrite');
+            tx.objectStore('settings').put(handle, 'fileHandle');
+            tx.oncomplete = () => resolve();
+        });
+    }
+
+    async function getFileHandle() {
+        const db = await getDB();
+        return new Promise((resolve, reject) => {
+            const tx = db.transaction('settings', 'readonly');
+            const req = tx.objectStore('settings').get('fileHandle');
+            req.onsuccess = () => resolve(req.result);
+            req.onerror = () => resolve(null);
+        });
+    }
+
+    async function clearFileHandle() {
+        const db = await getDB();
+        return new Promise((resolve) => {
+            const tx = db.transaction('settings', 'readwrite');
+            tx.objectStore('settings').delete('fileHandle');
+            tx.oncomplete = () => resolve();
+        });
+    }
+
+    function generateId() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
+
+    // 🔥 修復：強化舊版資料向後相容色彩與防呆處理
+    function fixDates(dataObj) {
+        if(dataObj && dataObj.homeworks) {
+            dataObj.homeworks.forEach(h => {
+                if (h && h.createdAt && typeof h.createdAt === 'string') {
+                    h.createdAt = new Date(h.createdAt);
+                }
+            });
+        }
+        
+        // 顏色自動升級過濾器 (確保舊版 bg-red-500 自動轉換為 bg-rose-500)
+        if (dataObj && dataObj.homeworkTypes) {
+            dataObj.homeworkTypes.forEach(t => {
+                (t.statuses || []).forEach(s => {
+                    if (s.color === 'bg-red-500') { s.color = 'bg-rose-500'; s.textColor = 'text-white'; }
+                    else if (s.color === 'bg-yellow-500') { s.color = 'bg-amber-400'; s.textColor = 'text-amber-950'; }
+                    else if (s.color === 'bg-green-500') { s.color = 'bg-emerald-500'; s.textColor = 'text-white'; }
+                    else if (s.color === 'bg-gray-300') { s.color = 'bg-slate-200'; s.textColor = 'text-slate-500'; }
+                });
+            });
+        }
+    }
+
+    function runAutoBackup() {
+        const today = formatDate(new Date(), 'YYYY-MM-DD');
+        const backupKey = `hw_backup_${today}`;
+        localStorage.setItem(backupKey, JSON.stringify(appData));
+        const keys = Object.keys(localStorage).filter(k => k.startsWith('hw_backup_')).sort();
+        if (keys.length > 3) keys.slice(0, keys.length - 3).forEach(k => localStorage.removeItem(k));
+    }
+
+    function saveData() {
+        isSaving = true;
+        return new Promise((resolve) => {
+            if (saveTimeout) clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(async () => {
+                try {
+                    localStorage.setItem('homeworkAppData', JSON.stringify(appData));
+                    runAutoBackup();
+                    if (fileHandle && (await fileHandle.queryPermission({ mode: 'readwrite' })) === 'granted') {
+                        const writable = await fileHandle.createWritable();
+                        await writable.write(JSON.stringify(appData));
+                        await writable.close();
+                    }
+                } catch (error) { console.error(error); } 
+                finally { isSaving = false; resolve(); }
+            }, 300);
+        });
+    }
+
+    async function syncFromFileHandle() {
+        if (!fileHandle) return false;
+        try {
+            const file = await fileHandle.getFile();
+            const text = await file.text();
+            if (text) {
+                appData = JSON.parse(text); fixDates(appData);
+                localStorage.setItem('homeworkAppData', JSON.stringify(appData)); runAutoBackup();
+                return true;
+            }
+        } catch (e) {
+            showAlertModal("連線遺失", "讀取本地實體檔案失敗，可能是檔案已被移動或刪除。系統將自動切換為暫存模式。");
+            await clearFileHandle(); fileHandle = null; updateDataManagementUI();
+        }
+        return false;
+    }
+
+    async function syncFromFileHandleSilently() {
+        if (!fileHandle) return false;
+        try {
+            const file = await fileHandle.getFile();
+            const text = await file.text();
+            if (text) {
+                const newData = JSON.parse(text);
+                if (JSON.stringify(newData) !== JSON.stringify(appData)) {
+                    appData = newData; fixDates(appData);
+                    localStorage.setItem('homeworkAppData', JSON.stringify(appData));
+                    reRenderCurrentPage(); return true;
+                }
+            }
+        } catch (e) {} return false;
+    }
+
+    function formatDate(date, format) {
+        const year = date.getFullYear(), month = date.getMonth() + 1, day = date.getDate();
+        if (format === 'YYYY-MM-DD') return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        return `${year}/${month}/${day}`;
+    }
+
+    function getHomeworkType(typeId) {
+        return appData.homeworkTypes.find(t => t.id === typeId) || appData.homeworkTypes.find(t => t.id === 'default') || DEFAULT_TYPES[0];
+    }
+
+    function isStudentCompleted(student, homeworkTypeId) {
+        const type = getHomeworkType(homeworkTypeId);
+        const statusConfig = type.statuses.find(s => s.key === student.status);
+        return statusConfig ? statusConfig.isCompleted : false;
+    }
+
+    // 修復取消按鈕遺失的問題
+    function showConfirmModal(title, message, onConfirm) {
+        document.getElementById('confirm-title').textContent = title;
+        document.getElementById('confirm-message').textContent = message;
+        document.getElementById('confirm-cancel').classList.remove('hidden'); // CRUCIAL FIX
+        openModal(document.getElementById('confirm-modal'));
+        
+        const confirmOk = document.getElementById('confirm-ok'), confirmCancel = document.getElementById('confirm-cancel');
+        
+        const confirmHandler = () => { onConfirm(); closeModal(document.getElementById('confirm-modal')); cleanup(); };
+        const cancelHandler = () => { closeModal(document.getElementById('confirm-modal')); cleanup(); };
+        const cleanup = () => { confirmOk.removeEventListener('click', confirmHandler); confirmCancel.removeEventListener('click', cancelHandler); };
+        
+        confirmOk.addEventListener('click', confirmHandler); 
+        confirmCancel.addEventListener('click', cancelHandler);
+    }
+
+    function checkAndCleanupStorage() {
+        try {
+            if (!currentClassId || appData.classes.length === 0) return;
+            const currentClass = appData.classes.find(c => c.id === currentClassId);
+            if (!currentClass || !currentClass.contactBook) return;
+            const thirtyDaysAgo = new Date(); thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            const limitDateString = formatDate(thirtyDaysAgo, 'YYYY-MM-DD');
+            let needsUpdate = false; const newContactBook = {};
+            for (const [dateStr, items] of Object.entries(currentClass.contactBook)) {
+                if (dateStr >= limitDateString) newContactBook[dateStr] = items;
+                else needsUpdate = true; 
+            }
+            if (needsUpdate) { currentClass.contactBook = newContactBook; saveData(); }
+        } catch (error) {}
+    }
+
+    function updateSingleStudentUI(seat, oldStatusKey, newStatusKey, typeConfig) {
+        const btn = document.getElementById(`btn-seat-${seat}`);
+        if (!btn) return;
+        const oldStatus = typeConfig.statuses.find(s => s.key === oldStatusKey);
+        const newStatus = typeConfig.statuses.find(s => s.key === newStatusKey);
+
+        if (oldStatus && newStatus) {
+            const oldRingColor = (oldStatus.color || '').replace('bg-', 'ring-').replace('-500', '-200').replace('-400', '-200');
+            const oldClasses = [...(oldStatus.color || '').split(' '), ...(oldStatus.textColor || '').split(' '), `hover:${oldRingColor}`, `focus:${oldRingColor}`].filter(Boolean);
+            btn.classList.remove(...oldClasses);
+
+            const newRingColor = (newStatus.color || '').replace('bg-', 'ring-').replace('-500', '-200').replace('-400', '-200');
+            const newClasses = [...(newStatus.color || '').split(' '), ...(newStatus.textColor || '').split(' '), `hover:${newRingColor}`, `focus:${newRingColor}`].filter(Boolean);
+            btn.classList.add(...newClasses);
+            
+            const spans = btn.querySelectorAll('span');
+            if (spans && spans.length > 1) spans[1].textContent = newStatus.text;
+        }
+    }
+
+    function updateSummaryUI(hw) {
+        const summaryContainer = document.getElementById('status-summary');
+        if (!summaryContainer) return;
+        const typeConfig = getHomeworkType(hw.typeId || 'default');
+        const statusCounts = {};
+        typeConfig.statuses.forEach(s => statusCounts[s.key] = 0);
+        (hw.students || []).forEach(student => { statusCounts[student.status] = (statusCounts[student.status] || 0) + 1; });
+
+        summaryContainer.innerHTML = '';
+        typeConfig.statuses.forEach(s => {
+            const count = statusCounts[s.key] || 0;
+            const summaryChip = document.createElement('div');
+            summaryChip.className = `flex items-center space-x-2 px-4 py-1.5 rounded-xl shadow-sm ${s.color} ${s.textColor} border border-white/20 backdrop-blur-sm`;
+            summaryChip.innerHTML = `<span class="font-medium opacity-90 text-xs tracking-wide">${s.text}</span><span class="font-black text-lg leading-none">${count}</span>`;
+            summaryContainer.appendChild(summaryChip);
+        });
+    }
+
+    function updateTypeSelects() {
+        const typeSelect = document.getElementById('homework-type-select');
+        if (!typeSelect) return; typeSelect.innerHTML = '';
+        appData.homeworkTypes.forEach(t => {
+            const opt = document.createElement('option'); opt.value = t.id; opt.textContent = t.name;
+            typeSelect.appendChild(opt);
+        });
+    }
+
+    function renderClassSelector() {
+        const classSelector = document.getElementById('class-selector');
+        if(!classSelector) return; classSelector.innerHTML = '';
+        if (appData.classes.length === 0) {
+            const option = document.createElement('option'); option.textContent = '請先建立班級';
+            classSelector.appendChild(option); classSelector.disabled = true;
+            ['show-add-modal-btn', 'student-details-btn', 'contact-book-btn'].forEach(id => {
+                const btn = document.getElementById(id); if (btn) btn.disabled = true;
+            });
+            return;
+        }
+        classSelector.disabled = false;
+        ['show-add-modal-btn', 'student-details-btn', 'contact-book-btn'].forEach(id => {
+            const btn = document.getElementById(id); if (btn) btn.disabled = false;
+        });
+        appData.classes.forEach(c => {
+            const option = document.createElement('option'); option.value = c.id; option.textContent = c.name;
+            if (c.id === currentClassId) option.selected = true;
+            classSelector.appendChild(option);
+        });
+    }
+
+    function renderClassList() {
+        const classListDiv = document.getElementById('class-list');
+        if(!classListDiv) return; classListDiv.innerHTML = '';
+        appData.classes.forEach(c => {
+            const classItem = document.createElement('div');
+            classItem.className = 'flex justify-between items-center p-3.5 bg-slate-50 border border-slate-200/60 rounded-xl mb-2 transition-all hover:bg-slate-100/70';
+            classItem.innerHTML = `<span class="font-bold text-slate-800">${c.name}</span><button data-id="${c.id}" data-name="${c.name}" class="delete-class-btn text-slate-300 hover:text-rose-500 font-bold p-1 rounded-lg transition-colors text-lg leading-none">&times;</button>`;
+            classListDiv.appendChild(classItem);
+        });
+    }
+
+    function renderHomeworkList() {
+        const homeworkList = document.getElementById('homework-list');
+        if (!homeworkList) return;
+        let filteredHomeworks = appData.homeworks.filter(hw => hw.classId === currentClassId);
+        const sortMethod = document.getElementById('sort-homework') ? document.getElementById('sort-homework').value : 'time';
+        filteredHomeworks.sort((a, b) => {
+            if (sortMethod === 'time') return (b.createdAt || new Date(0)).getTime() - (a.createdAt || new Date(0)).getTime();
+            if (sortMethod === 'missing') return ((b.students || []).filter(s => !isStudentCompleted(s, b.typeId || 'default')).length) - ((a.students || []).filter(s => !isStudentCompleted(s, a.typeId || 'default')).length);
+            return 0;
+        });
+
+        homeworkList.innerHTML = '';
+        if (filteredHomeworks.length === 0) {
+            homeworkList.innerHTML = `
+                <div class="col-span-full flex flex-col items-center justify-center py-20 px-4">
+                    <div class="w-20 h-20 bg-slate-100 rounded-2xl flex items-center justify-center mb-4 border border-slate-200/40 shadow-sm shadow-slate-100">
+                        <svg class="w-8 h-8 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <p id="empty-homework-message" class="text-center text-slate-400 font-semibold tracking-wide text-sm">目前的班級沒有點收項目，請點擊右上角 ✨ 新增作業</p>
+                </div>`;
+        } else {
+            filteredHomeworks.forEach(hw => {
+                const typeId = hw.typeId || 'default'; const typeConfig = getHomeworkType(typeId);
+                const statusCounts = (hw.students || []).reduce((acc, student) => { acc[student.status] = (acc[student.status] || 0) + 1; return acc; }, {});
+                const completedCount = (hw.students || []).filter(s => isStudentCompleted(s, typeId)).length;
+                let summaryHtml = '';
+                if (completedCount === (hw.students || []).length && (hw.students || []).length > 0) {
+                    summaryHtml = `<div class="text-emerald-600 font-bold bg-emerald-50/70 border border-emerald-200/50 px-3 py-1 rounded-xl text-xs inline-flex items-center gap-1">🎉 全班已到齊</div>`;
+                } else {
+                    summaryHtml = typeConfig.statuses.filter(s => statusCounts[s.key] > 0).map(s => {
+                        let textClass = 'text-slate-600 bg-slate-100/80';
+                        if(s.color.includes('blue')) textClass = 'text-blue-600 bg-blue-50/60 border-blue-100/50';
+                        else if(s.color.includes('emerald') || s.color.includes('green')) textClass = 'text-emerald-600 bg-emerald-50/60 border-emerald-100/50';
+                        else if(s.color.includes('yellow') || s.color.includes('amber')) textClass = 'text-amber-700 bg-amber-50/80 border-amber-100/50';
+                        else if(s.color.includes('red') || s.color.includes('rose')) textClass = 'text-rose-600 bg-rose-50/60 border-rose-100/50';
+                        else if(s.color.includes('purple')) textClass = 'text-purple-600 bg-purple-50/60 border-purple-100/50';
+                        return `<span class="inline-flex items-center text-xs font-bold border border-transparent px-2.5 py-1 rounded-xl ${textClass}">${s.text}<span class="ml-1 opacity-80 font-black">${statusCounts[s.key]}</span></span>`;
+                    }).join('');
+                }
+
+                const hwItem = document.createElement('div');
+                hwItem.className = 'bg-white rounded-2xl border border-slate-200/70 p-6 cursor-pointer shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 hover:-translate-y-1 hover:border-indigo-200/80 transition-all duration-300 group relative overflow-hidden active:scale-[0.99] hover-shimmer';
+                hwItem.dataset.id = hw.id;
+                
+                const createdDate = (hw.createdAt instanceof Date) ? hw.createdAt.toLocaleDateString('zh-TW') : 'N/A';
+                hwItem.innerHTML = `
+                    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-50/20 to-transparent -translate-x-full shimmer-bar pointer-events-none"></div>
+                    <div class="flex justify-between items-start relative z-10">
+                        <div class="flex items-center gap-2.5 flex-grow min-w-0">
+                             <span class="text-[10px] font-black bg-slate-100 text-slate-400 tracking-wider px-2 py-0.5 rounded-md whitespace-nowrap uppercase">${typeConfig.name}</span>
+                            <h2 class="text-lg font-black text-slate-800 truncate tracking-tight group-hover:text-indigo-600 transition-colors" title="${hw.name}">${hw.name}</h2>
+                        </div>
+                        <div class="flex items-center gap-1 flex-shrink-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                            <button data-id="${hw.id}" class="edit-hw-btn text-slate-400 hover:text-indigo-600 p-1.5 rounded-lg hover:bg-indigo-50 transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-4 lg:w-4" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /></svg></button>
+                            <button data-id="${hw.id}" class="delete-hw-btn text-slate-400 hover:text-rose-600 p-1.5 rounded-lg hover:bg-rose-50 transition-all"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 lg:h-4 lg:w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" /></svg></button>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center text-[11px] font-bold text-slate-400 mt-2.5 tracking-wider relative z-10"><span>👥 名單 ${(hw.students || []).length} 人</span><span>📅 ${createdDate}</span></div>
+                    <div class="mt-4 flex flex-wrap gap-1.5 relative z-10">${summaryHtml}</div>
+                `;
+                homeworkList.appendChild(hwItem);
+            });
+        }
+    }
+
+    function renderStudentGrid(homeworkId) {
+        const studentGrid = document.getElementById('student-grid');
+        if(!studentGrid) return;
+        const hw = appData.homeworks.find(h => h.id === homeworkId);
+        if (!hw) return;
+        currentHomeworkId = homeworkId;
+        document.getElementById('detail-homework-name').textContent = hw.name;
+        studentGrid.innerHTML = '';
+        const count = (hw.students || []).length;
+        if (count === 0) return; 
+        
+        const containerWidth = studentGrid.parentElement.clientWidth - 32; 
+        const headerHeight = document.querySelector('#detail-page header').offsetHeight || 150;
+        const availableHeight = Math.max(window.innerHeight - headerHeight - 80, 200); 
+        
+        let bestCols = 1; let bestBoxSize = 0;
+        for (let c = 1; c <= count; c++) {
+            const r = Math.ceil(count / c); const gap = window.innerWidth < 640 ? 10 : 14; 
+            const sizeW = (containerWidth - (c - 1) * gap) / c; const sizeH = (availableHeight - (r - 1) * gap) / r;
+            const size = Math.min(sizeW, sizeH, 160); 
+            if (size > bestBoxSize) { bestBoxSize = size; bestCols = c; }
+        }
+        if (bestCols < 1) bestCols = 1;
+        
+        const gap = window.innerWidth < 640 ? 10 : 14;
+        studentGrid.className = `grid mx-auto`; studentGrid.style.gap = `${gap}px`;
+        studentGrid.style.gridTemplateColumns = `repeat(${bestCols}, 1fr)`;
+        studentGrid.style.width = `${Math.floor(bestCols * bestBoxSize + (bestCols - 1) * gap)}px`; studentGrid.style.maxWidth = '100%';
+
+        const typeId = hw.typeId || 'default'; const typeConfig = getHomeworkType(typeId);
+        const batchSelect = document.getElementById('batch-status-select');
+        if (batchSelect && (batchSelect.options.length === 0 || batchSelect.dataset.typeId !== typeId)) {
+            batchSelect.innerHTML = ''; batchSelect.dataset.typeId = typeId;
+            typeConfig.statuses.forEach(s => {
+                const opt = document.createElement('option'); opt.value = s.key; opt.textContent = s.text; batchSelect.appendChild(opt);
+            });
+        }
+
+        (hw.students || []).forEach(student => {
+            let statusInfo = typeConfig.statuses.find(s => s.key === student.status);
+            if (!statusInfo) { statusInfo = typeConfig.statuses[0]; student.status = statusInfo.key; }
+            const studentBtn = document.createElement('button');
+            const ringColor = (statusInfo.color || '').replace('bg-', 'ring-').replace('-500', '-200').replace('-400', '-200');
+            studentBtn.id = `btn-seat-${student.seat}`;
+            studentBtn.className = `student-btn rounded-2xl shadow-sm text-center transition-all duration-300 transform hover:scale-[1.05] active:scale-90 ${statusInfo.color} ${statusInfo.textColor} flex flex-col items-center justify-center border-2 border-transparent aspect-square overflow-hidden cursor-pointer w-full h-full ring-4 ring-offset-1 ring-transparent hover:${ringColor} focus:outline-none focus:${ringColor}`;
+            studentBtn.dataset.seat = student.seat;
+            const fontSizeNum = Math.max(14, bestBoxSize * 0.32); const fontSizeText = Math.max(10, bestBoxSize * 0.13); 
+            studentBtn.innerHTML = `
+                <span class="font-black leading-none tracking-tighter select-none" style="font-size: ${fontSizeNum}px; pointer-events: none;">${student.seat}</span>
+                <span class="font-bold leading-tight mt-1 opacity-90 truncate w-full px-1 select-none" style="font-size: ${fontSizeText}px; pointer-events: none;">${statusInfo.text}</span>
+            `;
+            studentGrid.appendChild(studentBtn);
+        });
+        updateSummaryUI(hw);
+    }
+
+    function renderStudentDetailsPage() {
+        const studentDetailsList = document.getElementById('student-details-list');
+        if(!studentDetailsList) return;
+        studentDetailsList.innerHTML = '';
+        const filteredHomeworks = appData.homeworks.filter(hw => hw.classId === currentClassId);
+
+        if(filteredHomeworks.length === 0) {
+            studentDetailsList.innerHTML = '<div class="col-span-full text-center text-slate-400 py-12 font-bold">目前此班級尚無登錄作業。</div>'; return;
+        }
+
+        const studentData = []; let maxStudentCount = 0;
+        filteredHomeworks.forEach(hw => { (hw.students || []).forEach(s => { maxStudentCount = Math.max(maxStudentCount, s.seat); }); });
+
+        if (maxStudentCount === 0) { studentDetailsList.innerHTML = '<div class="col-span-full text-center text-slate-400 py-12 font-bold">此班級尚無建立學生。</div>'; return; }
+        
+        for (let i = 1; i <= maxStudentCount; i++) {
+            const issues = []; let isExistsInAnyHw = false;
+            filteredHomeworks.forEach(hw => {
+                const typeId = hw.typeId || 'default'; const student = (hw.students || []).find(s => s.seat === i);
+                if (student) {
+                    isExistsInAnyHw = true;
+                    if (!isStudentCompleted(student, typeId)) {
+                        const typeConfig = getHomeworkType(typeId);
+                        const statusInfo = typeConfig.statuses.find(s => s.key === student.status) || typeConfig.statuses[0];
+                        issues.push({ hwName: hw.name, hwId: hw.id, statusText: statusInfo.text, colorClass: statusInfo.textColor.includes('white') ? (statusInfo.color || '').replace('bg-', 'text-') : 'text-slate-600' });
+                    }
+                }
+            });
+            if(isExistsInAnyHw) studentData.push({ seat: i, issues });
+        }
+
+        const sortMethod = document.getElementById('sort-student-detail') ? document.getElementById('sort-student-detail').value : 'number';
+        studentData.sort((a, b) => sortMethod === 'number' ? a.seat - b.seat : b.issues.length - a.issues.length);
+
+        let hasIssues = false;
+        studentData.forEach(data => {
+            if (data.issues.length === 0) return;
+            hasIssues = true;
+            const studentCard = document.createElement('div');
+            studentCard.className = 'bg-white rounded-2xl shadow-sm border border-slate-200/60 p-5 hover:shadow-md transition-all';
+            const issuesHtml = data.issues.map(issue => `<span class="mr-2 inline-block bg-slate-50 border border-slate-200/40 rounded-xl px-3 py-1 mb-2 text-xs"><span class="homework-link font-black ${issue.colorClass} cursor-pointer hover:underline" data-id="${issue.hwId}">${issue.hwName}</span> <span class="text-[10px] font-bold opacity-50 ml-1">(${issue.statusText})</span></span>`).join('');
+            studentCard.innerHTML = `
+                <h3 class="text-lg font-black text-slate-800 flex justify-between items-center mb-3">
+                    <span class="bg-slate-100 px-3 py-1 rounded-xl">${data.seat} 號</span>
+                    <span class="text-xs font-bold text-rose-500 bg-rose-50 px-2.5 py-1 rounded-xl border border-rose-100">未完成: ${data.issues.length}</span>
+                </h3>
+                <div class="mt-2 flex flex-wrap">${issuesHtml}</div>
+            `;
+            studentDetailsList.appendChild(studentCard);
+        });
+        
+        if(!hasIssues) studentDetailsList.innerHTML = `<div class="col-span-full bg-emerald-50 border border-emerald-100 rounded-3xl p-10 text-center shadow-inner"><div class="text-4xl mb-3">🏆</div><p class="text-emerald-700 font-extrabold text-lg">全班所有作業均已準時點收完成！</p></div>`;
+    }
+    
+    function renderHomeworkTypesPage() {
+        const list = document.getElementById('types-list');
+        if(!list) return; list.innerHTML = '';
+        appData.homeworkTypes.forEach((type, typeIndex) => {
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-2xl shadow-sm border border-slate-200/60 p-6 hover:shadow-md transition-shadow relative overflow-hidden';
+            const statusesHtml = type.statuses.map((status, statusIndex) => {
+                return `
+                    <div class="flex items-center gap-3 mb-2.5 bg-slate-50 p-2 rounded-xl border border-slate-200/40">
+                        <div class="color-dot ${status.color} w-5 h-5 shadow-sm border-2 border-white cursor-pointer rounded-full flex-shrink-0 transition-transform hover:scale-110" data-type-index="${typeIndex}" data-status-index="${statusIndex}"></div>
+                        <input type="text" class="status-name-input bg-transparent font-bold focus:outline-none focus:border-b-2 focus:border-indigo-400 px-1 py-0.5 w-24 text-sm text-slate-700" value="${status.text}" data-type-index="${typeIndex}" data-status-index="${statusIndex}">
+                        <label class="flex items-center text-[11px] font-black text-slate-400 cursor-pointer select-none ml-auto bg-white px-2 py-1 rounded-lg border border-slate-200 shadow-sm hover:text-slate-600">
+                            <input type="checkbox" class="mr-1.5 is-completed-check w-3.5 h-3.5 text-indigo-500 rounded border-slate-300 focus:ring-indigo-500" ${status.isCompleted ? 'checked' : ''} data-type-index="${typeIndex}" data-status-index="${statusIndex}"> 完成
+                        </label>
+                        <button class="delete-status-btn text-slate-300 hover:text-rose-500 p-1 rounded transition-colors" data-type-index="${typeIndex}" data-status-index="${statusIndex}">&times;</button>
+                    </div>`;
+            }).join('');
+
+            card.innerHTML = `
+                <div class="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r ${typeIndex === 0 ? 'from-slate-300 to-slate-400' : 'from-indigo-500 to-violet-500'}"></div>
+                <div class="flex justify-between items-center mb-4 gap-2">
+                    <input type="text" class="type-name-input text-xl font-black text-slate-800 focus:outline-none focus:bg-slate-50 rounded-xl px-2 py-1 -ml-2 bg-transparent w-full transition-colors" value="${type.name}" data-type-index="${typeIndex}">
+                    <button class="delete-type-btn text-slate-400 hover:text-rose-500 text-xs font-bold bg-slate-100 hover:bg-rose-50 px-2.5 py-1.5 rounded-xl transition-colors" data-type-index="${typeIndex}" ${type.id === 'default' ? 'disabled style="opacity:0.2; cursor:not-allowed;"' : ''}>刪除種類</button>
+                </div>
+                <div class="space-y-1 mb-4">${statusesHtml}</div>
+                <button class="add-status-btn w-full py-2.5 border border-dashed border-slate-200 text-slate-400 font-bold rounded-xl hover:bg-slate-50 hover:text-indigo-500 hover:border-indigo-200 transition-all text-xs flex items-center justify-center gap-1" data-type-index="${typeIndex}">+ 新增狀態</button>
+            `;
+            list.appendChild(card);
+        });
+    }
+
+    function renderContactBookItems() {
+        const blackboard = document.getElementById('blackboard-content');
+        if(!blackboard) return;
+        blackboard.innerHTML = ''; 
+        blackboard.style.fontSize = `${blackboardFontSize}rem`;
+        blackboard.style.lineHeight = `${blackboardLineHeight}`;
+        
+        if (!currentClassId) return;
+        const currentClass = appData.classes.find(c => c.id === currentClassId);
+        const dateDisplay = document.getElementById('contact-book-date');
+        if(dateDisplay) dateDisplay.textContent = formatDate(selectedDate);
+        const dateString = formatDate(selectedDate, 'YYYY-MM-DD');
+        const items = currentClass?.contactBook?.[dateString] || [];
+
+        if (items.length === 0) {
+            blackboard.innerHTML = `<p class="text-white/20 italic text-center mt-12 text-sm select-none" style="font-family: sans-serif;">今日無聯絡記事。請在下方欄位書寫...</p>`; return;
+        }
+
+        items.forEach((item, index) => {
+            const itemEl = document.createElement('div');
+            itemEl.className = 'flex items-start justify-between group p-3 rounded-xl hover:bg-white/5 transition-all border border-transparent hover:border-white/10';
+            itemEl.innerHTML = `
+                <div class="flex-grow pt-0.5"><span class="mr-3 font-bold opacity-60">${index + 1}.</span><span class="whitespace-pre-wrap">${item}</span></div>
+                <div class="flex gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-all ml-4 flex-shrink-0 bg-slate-900/60 backdrop-blur-md rounded-xl p-1 border border-white/10 shadow-xl">
+                    <button class="to-hw-btn w-8 h-8 flex items-center justify-center rounded-lg bg-teal-500/20 text-teal-300 hover:bg-teal-500 hover:text-white transition-all font-bold" data-index="${index}" title="轉為作業發布">📖</button>
+                    <button class="edit-contact-btn w-8 h-8 flex items-center justify-center rounded-lg bg-amber-500/20 text-amber-300 hover:bg-amber-500 hover:text-white transition-all font-bold" data-index="${index}" title="編輯內文">✏️</button>
+                    <button class="delete-contact-item-btn w-8 h-8 flex items-center justify-center rounded-lg bg-rose-500/20 text-rose-300 hover:bg-rose-500 hover:text-white transition-all font-bold text-lg leading-none" data-index="${index}" title="擦除此項">&times;</button>
+                </div>
+            `;
+            blackboard.appendChild(itemEl);
+        });
+    }
+
+    function renderCalendar() {
+        const grid = document.getElementById('calendar-grid'); const monthYear = document.getElementById('current-month-year');
+        if(!grid || !monthYear) return; grid.innerHTML = '';
+        const year = calendarDate.getFullYear(), month = calendarDate.getMonth();
+        monthYear.textContent = `${year}年 ${month + 1}月`;
+        const firstDay = new Date(year, month, 1).getDay(); const daysInMonth = new Date(year, month + 1, 0).getDate();
+        for (let i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
+        const todayString = formatDate(new Date(), 'YYYY-MM-DD'); const selectedDateString = formatDate(selectedDate, 'YYYY-MM-DD');
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayEl = document.createElement('button');
+            dayEl.className = 'calendar-day h-10 w-10 sm:h-11 sm:w-11 mx-auto flex items-center justify-center rounded-xl font-bold transition-all';
+            dayEl.textContent = day; dayEl.dataset.day = day;
+            const currentDayString = formatDate(new Date(year, month, day), 'YYYY-MM-DD');
+            if (currentDayString === selectedDateString) dayEl.classList.add('bg-indigo-600', 'text-white', 'shadow-md', 'shadow-indigo-200', 'scale-105');
+            else if (currentDayString === todayString) dayEl.classList.add('bg-indigo-50', 'text-indigo-600', 'border', 'border-indigo-200');
+            else dayEl.classList.add('text-slate-600', 'hover:bg-slate-100', 'hover:text-indigo-600');
+            grid.appendChild(dayEl);
+        }
+    }
+
+    function updateDataManagementUI() {
+        const statusText = document.getElementById('current-file-status'), linkBtn = document.getElementById('link-file-btn'), unlinkBtn = document.getElementById('unlink-file-btn'), backupList = document.getElementById('auto-backup-list');
+        if(!statusText) return;
+
+        if (fileHandle) {
+            statusText.innerHTML = `狀態：已安全對齊本地實體檔案 <br><span class="text-indigo-900 font-bold bg-white px-3 py-1.5 rounded-xl inline-block mt-3 shadow-sm border border-indigo-100 text-xs tracking-wide">📄 ${fileHandle.name}</span>`;
+            linkBtn.textContent = "變更硬碟資料檔"; unlinkBtn.classList.remove('hidden');
+        } else {
+            statusText.textContent = "狀態：暫存模式 (重整或關閉瀏覽器資料可能遺失)"; statusText.className = "text-xs font-bold text-amber-600 bg-amber-50 border border-amber-100 p-3 rounded-xl mb-4";
+            linkBtn.textContent = "綁定硬碟實體 .json 檔案"; unlinkBtn.classList.add('hidden');
+        }
+        
+        if (!window.showSaveFilePicker) {
+            statusText.textContent = "狀態：您的瀏覽器安全層級不支援直接寫入系統，請定時手動下載 JSON 備份。"; statusText.className = "text-xs font-bold text-rose-600 bg-rose-50 p-3 rounded-xl border border-rose-100 mb-4";
+            linkBtn.classList.add('hidden'); unlinkBtn.classList.add('hidden');
+        }
+
+        if(backupList) {
+            backupList.innerHTML = '';
+            const keys = Object.keys(localStorage).filter(k => k.startsWith('hw_backup_')).sort().reverse();
+            if (keys.length === 0) backupList.innerHTML = '<p class="text-xs font-bold text-slate-400 py-2">無自動備份快取。</p>';
+            else {
+                keys.forEach(k => {
+                    const dateStr = k.replace('hw_backup_', ''); const btn = document.createElement('button');
+                    btn.className = 'w-full bg-white border border-slate-200 text-slate-700 text-xs font-bold py-2.5 px-3.5 rounded-xl hover:bg-slate-50 transition-colors flex justify-between items-center shadow-sm';
+                    btn.innerHTML = `<span class="flex items-center gap-1.5 text-slate-500">📅 ${dateStr}</span> <span class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1 rounded-lg text-[10px] shadow-sm transition-colors">倒退還原</span>`;
+                    btn.onclick = () => {
+                        showConfirmModal('自動備份覆蓋還原', `確定要將所有班級與作業還原至 ${dateStr} 的進度嗎？目前的修改將會被完全洗掉！`, async () => {
+                            const dataStr = localStorage.getItem(k);
+                            if (dataStr) { appData = JSON.parse(dataStr); fixDates(appData); await saveData(); closeModal(document.getElementById('data-management-modal')); showToast('已成功還原備份！', 'success'); setTimeout(() => window.location.reload(), 500); }
+                        });
+                    };
+                    backupList.appendChild(btn);
+                });
+            }
+        }
+    }
+
+    function pushPageState(stateObj, hash) {
+        try {
+            if (history.state && history.state.page === stateObj.page && history.state.id === stateObj.id) return;
+            history.pushState(stateObj, '', hash);
+        } catch (e) {}
+    }
+
+    function hideAllPages() {
+        if (currentPage) scrollPositions[currentPage] = window.scrollY || document.documentElement.scrollTop;
+        ['main-page', 'detail-page', 'student-details-page', 'contact-book-page', 'homework-types-page'].forEach(id => {
+            const el = document.getElementById(id); if (el) el.classList.add('hidden');
+        });
+    }
+
+    function restoreScroll(targetPageId) {
+        currentPage = targetPageId; window.scrollTo({ top: scrollPositions[targetPageId] || 0, behavior: 'auto' });
+    }
+
+    function showMainPage(fromHistory = false) {
+        hideAllPages(); const mainPageEl = document.getElementById('main-page'); if (mainPageEl) mainPageEl.classList.remove('hidden');
+        if (!fromHistory) pushPageState({ page: 'main' }, '#main');
+        checkAndCleanupStorage(); updateTypeSelects(); renderClassSelector(); renderHomeworkList();
+        currentHomeworkId = null; document.getElementById('detail-page').dataset.from = ''; restoreScroll('main-page');
+    }
+
+    function showDetailPage(homeworkId, fromHistory = false) {
+        hideAllPages(); const detailPageEl = document.getElementById('detail-page'); if (detailPageEl) detailPageEl.classList.remove('hidden');
+        if (!fromHistory) pushPageState({ page: 'detail', id: homeworkId }, '#detail');
+        renderStudentGrid(homeworkId); restoreScroll('detail-page');
+    }
+
+    function showStudentDetailsPage(fromHistory = false) {
+        hideAllPages(); const studentPageEl = document.getElementById('student-details-page'); if (studentPageEl) studentPageEl.classList.remove('hidden');
+        if (!fromHistory) pushPageState({ page: 'student-details' }, '#student-details');
+        renderStudentDetailsPage(); restoreScroll('student-details-page');
+    }
+
+    function showContactBookPage(fromHistory = false) {
+        hideAllPages(); const contactPageEl = document.getElementById('contact-book-page'); if (contactPageEl) contactPageEl.classList.remove('hidden');
+        if (!fromHistory) pushPageState({ page: 'contact-book' }, '#contact-book');
+        selectedDate = new Date(); const currentClass = appData.classes.find(c => c.id === currentClassId);
+        const titleEl = document.getElementById('contact-book-title'); if (titleEl) titleEl.textContent = `${currentClass?.name || ''} 聯絡簿`;
+        renderContactBookItems(); restoreScroll('contact-book-page');
+    }
+
+    function showHomeworkTypesPage(fromHistory = false) {
+        hideAllPages(); const typePageEl = document.getElementById('homework-types-page'); if (typePageEl) typePageEl.classList.remove('hidden');
+        if (!fromHistory) pushPageState({ page: 'homework-types' }, '#homework-types');
+        renderHomeworkTypesPage(); restoreScroll('homework-types-page');
+    }
+
+    window.addEventListener('popstate', (e) => {
+        document.querySelectorAll('.modal:not(.hidden)').forEach(modal => closeModal(modal));
+        const state = e.state;
+        if (!state || state.page === 'main') showMainPage(true);
+        else if (state.page === 'detail') showDetailPage(state.id, true);
+        else if (state.page === 'student-details') showStudentDetailsPage(true);
+        else if (state.page === 'contact-book') showContactBookPage(true);
+        else if (state.page === 'homework-types') showHomeworkTypesPage(true);
+    });
+
+    function openModal(modal) {
+        if(!modal) return; modal.classList.remove('hidden');
+        setTimeout(() => { modal.classList.remove('opacity-0'); const content = modal.querySelector('.modal-content, .confirm-modal-content, #date-picker-content'); if(content) content.classList.remove('scale-95'); }, 10);
+    }
+    
+    function closeModal(modal) {
+        if(!modal) return; modal.classList.add('opacity-0');
+        const content = modal.querySelector('.modal-content, .confirm-modal-content, #date-picker-content'); if(content) content.classList.add('scale-95');
+        setTimeout(() => { modal.classList.add('hidden'); const form = modal.querySelector('form'); if(form) form.reset(); }, 300);
+    }
+
+    function fullRender() { updateTypeSelects(); renderClassSelector(); renderClassList(); renderHomeworkList(); }
+    
+    // =========================================================================
+    // 🛡️ 整合事件處理綁定生命週期 (嚴格防禦模式)
+    // =========================================================================
+    function setupButtonEvents() {
+        const bindClick = (id, handler) => { const el = document.getElementById(id); if (el) el.addEventListener('click', handler); };
+        const bindChange = (id, handler) => { const el = document.getElementById(id); if (el) el.addEventListener('change', handler); };
+        const bindSubmit = (id, handler) => { const el = document.getElementById(id); if (el) el.addEventListener('submit', handler); };
+
+        bindClick('intro-btn', () => openModal(document.getElementById('intro-modal')));
+        bindClick('show-add-modal-btn', () => {
+            const modal = document.getElementById('add-homework-modal');
+            document.getElementById('homework-modal-title').textContent = '新增作業'; modal.querySelector('form').reset(); document.getElementById('edit-homework-id').value = '';
+            document.getElementById('student-count-container').style.display = 'grid'; document.getElementById('homework-type-container').style.display = 'block'; document.getElementById('missing-seats-hint').style.display = 'block';
+            updateTypeSelects(); 
+            if (currentClassId) {
+                const currentClass = appData.classes.find(c => c.id === currentClassId);
+                if (currentClass && currentClass.lastMaxSeat) {
+                    document.getElementById('student-count').value = currentClass.lastMaxSeat; document.getElementById('homework-missing-seats').value = currentClass.lastMissingSeats || '';
+                } else {
+                    const classHws = appData.homeworks.filter(h => h.classId === currentClassId);
+                    if (classHws.length > 0) {
+                         let maxSeat = 0; (classHws[classHws.length-1].students || []).forEach(s => maxSeat = Math.max(maxSeat, s.seat)); document.getElementById('student-count').value = maxSeat || 30;
+                    } else document.getElementById('student-count').value = 30;
+                    document.getElementById('homework-missing-seats').value = '';
+                }
+            }
+            openModal(modal);
+        });
+
+        bindClick('manage-classes-btn', () => { renderClassList(); openModal(document.getElementById('manage-classes-modal')); });
+        bindClick('student-details-btn', () => showStudentDetailsPage());
+        bindClick('contact-book-btn', () => showContactBookPage());
+        bindClick('show-types-modal-btn', () => showHomeworkTypesPage());
+        bindClick('data-management-btn', () => { updateDataManagementUI(); openModal(document.getElementById('data-management-modal')); });
+
+        bindClick('back-to-main-btn', () => {
+            const detailPage = document.getElementById('detail-page');
+            if (detailPage && detailPage.dataset.from === 'student-details-page') { showStudentDetailsPage(); detailPage.dataset.from = ''; } else showMainPage();
+        });
+        
+        bindClick('back-from-student-details-btn', () => showMainPage());
+        bindClick('back-from-contact-book-btn', () => showMainPage());
+        bindClick('back-from-types-btn', () => showMainPage());
+
+        bindClick('show-all-done-btn', () => {
+            if (!currentHomeworkId) return; const hw = appData.homeworks.find(h => h.id === currentHomeworkId); if (!hw) return;
+            const doneStudents = (hw.students || []).filter(s => isStudentCompleted(s, hw.typeId || 'default')); renderAllDoneList(doneStudents, 'all-done-list'); openModal(document.getElementById('all-done-modal'));
+        });
+
+        bindClick('show-overall-all-done-btn', () => {
+            const filteredHomeworks = appData.homeworks.filter(hw => hw.classId === currentClassId);
+            if (filteredHomeworks.length === 0) { renderAllDoneList([], 'overall-all-done-list'); openModal(document.getElementById('overall-all-done-modal')); return; }
+            const problematicStudents = new Set(); let maxStudentCount = 0;
+            filteredHomeworks.forEach(hw => { (hw.students || []).forEach(student => { maxStudentCount = Math.max(maxStudentCount, student.seat); if (!isStudentCompleted(student, hw.typeId || 'default')) problematicStudents.add(student.seat); }); });
+            const allDoneStudents = [];
+            for (let i = 1; i <= maxStudentCount; i++) {
+                if (filteredHomeworks.some(h => (h.students || []).find(s => s.seat === i)) && !problematicStudents.has(i)) allDoneStudents.push(i);
+            }
+            renderAllDoneList(allDoneStudents, 'overall-all-done-list'); openModal(document.getElementById('overall-all-done-modal'));
+        });
+
+        const studentGrid = document.getElementById('student-grid');
+        if (studentGrid) {
+            studentGrid.addEventListener('click', async (e) => {
+                const studentBtn = e.target.closest('.student-btn');
+                if (studentBtn) {
+                    const seat = parseInt(studentBtn.dataset.seat);
+                    const hw = appData.homeworks.find(h => h.id === currentHomeworkId);
+                    if (!hw || !hw.students) return;
+                    const studentIndex = hw.students.findIndex(s => s.seat === seat);
+                    if (studentIndex === -1) return;
+                    
+                    const student = hw.students[studentIndex];
+                    const typeConfig = getHomeworkType(hw.typeId);
+                    
+                    let currentIndex = typeConfig.statuses.findIndex(s => s.key === student.status);
+                    if(currentIndex === -1) currentIndex = 0;
+
+                    const nextIndex = (currentIndex + 1) % typeConfig.statuses.length;
+                    const oldStatus = student.status;
+                    const newStatus = typeConfig.statuses[nextIndex].key;
+                    
+                    hw.students[studentIndex].status = newStatus;
+                    updateSingleStudentUI(seat, oldStatus, newStatus, typeConfig);
+                    updateSummaryUI(hw);
+                    saveData();
+                }
+            });
+        }
+
+        bindClick('link-file-btn', async () => {
+            try {
+                if (!window.showSaveFilePicker) throw new Error("您的瀏覽器不支援此功能");
+                const handle = await window.showSaveFilePicker({ suggestedName: '作業點收資料.json', types: [{ description: 'JSON 檔案', accept: { 'application/json': ['.json'] } }] });
+                fileHandle = handle; await saveFileHandle(handle); await syncFromFileHandle(); await saveData(); 
+                document.getElementById('sync-banner').classList.add('hidden'); document.body.classList.remove('has-banner');
+                updateDataManagementUI(); fullRender(); showToast("已安全連結硬碟儲存檔案！", "success");
+            } catch (e) { if (e.name !== 'AbortError') showAlertModal("無法連結檔案", "錯誤細節：" + e.message); }
+        });
+
+        bindClick('unlink-file-btn', async () => {
+            showConfirmModal('解除安全連結', '確定要解除本地硬碟檔案連結嗎？解除後資料將僅儲存於瀏覽器暫存區。', async () => {
+                await clearFileHandle(); fileHandle = null; updateDataManagementUI(); showToast("已解除硬碟檔案連結", "info");
+            });
+        });
+
+        bindClick('export-data-btn', () => {
+            const exportHw = document.getElementById('export-hw-chk').checked, exportTypes = document.getElementById('export-types-chk').checked, exportContact = document.getElementById('export-contact-chk').checked;
+            let exportData = JSON.parse(JSON.stringify(appData));
+            if (!exportHw) exportData.homeworks = []; if (!exportTypes) exportData.homeworkTypes = DEFAULT_TYPES; 
+            if (!exportContact) exportData.classes.forEach(c => c.contactBook = {});
+            else {
+                const thirtyDaysAgo = new Date(); thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30); const limitDateStr = formatDate(thirtyDaysAgo, 'YYYY-MM-DD');
+                exportData.classes.forEach(c => {
+                    if (c.contactBook) {
+                        const filteredBook = {};
+                        for (const [date, items] of Object.entries(c.contactBook)) { if (date >= limitDateStr) filteredBook[date] = items; }
+                        c.contactBook = filteredBook;
+                    }
+                });
+            }
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportData));
+            const downloadAnchorNode = document.createElement('a'); downloadAnchorNode.setAttribute("href", dataStr); downloadAnchorNode.setAttribute("download", `作業點收備份_${formatDate(new Date(), 'YYYY-MM-DD')}.json`);
+            document.body.appendChild(downloadAnchorNode); downloadAnchorNode.click(); downloadAnchorNode.remove(); closeModal(document.getElementById('data-management-modal'));
+            showToast("已成功下載 JSON 備份檔！", "success");
+        });
+
+        bindClick('trigger-import-btn', () => document.getElementById('import-file-input').click());
+
+        bindChange('import-file-input', (e) => {
+            const file = e.target.files[0]; if (!file) return; const reader = new FileReader();
+            reader.onload = async (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    if(!data.classes || !data.homeworks || !data.homeworkTypes) throw new Error("無效的備份檔案格式");
+                    
+                    showConfirmModal('手動還原覆蓋資料', '確定要將此 JSON 備份完整覆蓋目前所有的班級與作業嗎？這將無法復原！', async () => {
+                         closeModal(document.getElementById('data-management-modal')); 
+                         appData = data; 
+                         fixDates(appData); 
+                         localStorage.setItem('homeworkAppData', JSON.stringify(appData));
+                         try { await saveData(); } catch(saveErr) { console.warn("實體檔案同步略過"); }
+                         showToast("手動資料匯入還原完成！", "success"); 
+                         setTimeout(() => window.location.reload(), 500); 
+                    });
+                } catch(err) { showAlertModal("匯入失敗", "讀取備份檔案失敗：" + err.message); }
+            };
+            reader.readAsText(file); e.target.value = ''; 
+        });
+
+        bindSubmit('add-homework-form', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('edit-homework-id').value, name = document.getElementById('homework-name').value.trim(), typeId = document.getElementById('homework-type-select').value;
+            closeModal(document.getElementById('add-homework-modal'));
+            if (editId) { 
+                const hw = appData.homeworks.find(h => h.id === editId); if (hw && name) { hw.name = name; await saveData(); showToast("修改作業名稱成功！"); renderHomeworkList(); }
+            } else { 
+                const studentCount = parseInt(document.getElementById('student-count').value), missingInput = document.getElementById('homework-missing-seats').value;
+                let missingSeats = [];
+                const parts = missingInput.replace(/，/g, ',').split(/[\s,]+/);
+                for (let part of parts) {
+                    part = part.trim(); if (!part) continue;
+                    if (part.includes('-')) {
+                        const [startStr, endStr] = part.split('-'); const start = parseInt(startStr), end = parseInt(endStr);
+                        if (!isNaN(start) && !isNaN(end) && start <= end) { for (let i = start; i <= end; i++) missingSeats.push(i); }
+                    } else {
+                        const num = parseInt(part); if (!isNaN(num)) missingSeats.push(num);
+                    }
+                }
+                if (name && studentCount > 0 && currentClassId) {
+                    const typeConfig = getHomeworkType(typeId); const initialStatus = typeConfig.statuses[0].key; const students = [];
+                    for (let i = 1; i <= studentCount; i++) { if (!missingSeats.includes(i)) students.push({ seat: i, status: initialStatus }); }
+                    const currentClass = appData.classes.find(c => c.id === currentClassId);
+                    if (currentClass) { currentClass.lastMaxSeat = studentCount; currentClass.lastMissingSeats = missingInput; }
+                    appData.homeworks.push({ id: generateId(), classId: currentClassId, name, studentCount: students.length, typeId, createdAt: new Date(), students: students });
+                    await saveData(); showToast("成功新增點收項目！", "success"); renderHomeworkList();
+                }
+            }
+        });
+
+        bindClick('batch-status-btn', async () => {
+            if (!currentHomeworkId) return;
+            const targetStatus = document.getElementById('batch-status-select').value, statusText = document.querySelector('#batch-status-select option:checked').textContent, hw = appData.homeworks.find(h => h.id === currentHomeworkId);
+            if (!hw) return;
+            showConfirmModal('全班一鍵套用變更', `確定要將目前這份作業的所有座號均套用變更為「${statusText}」嗎？`, async () => {
+                (hw.students || []).forEach(s => s.status = targetStatus); renderStudentGrid(currentHomeworkId); await saveData(); showToast("已套用全班狀態變更！", "success");
+            });
+        });
+
+        bindClick('add-new-type-btn', async () => {
+            appData.homeworkTypes.push({
+                id: `custom-${Date.now()}`, name: '新作業種類',
+                statuses: [ { key: 's1', text: '未繳交', color: 'bg-slate-200', textColor: 'text-slate-500', isCompleted: false }, { key: 's2', text: '已完成', color: 'bg-emerald-500', textColor: 'text-white', isCompleted: true } ]
+            });
+            await saveData(); showToast("已新增自訂作業種類！"); renderHomeworkTypesPage();
+        });
+
+        const typesList = document.getElementById('types-list');
+        if(typesList) {
+            typesList.addEventListener('click', async (e) => {
+                if (e.target.classList.contains('delete-type-btn')) {
+                    const idx = parseInt(e.target.dataset.typeIndex); if (appData.homeworkTypes[idx].id === 'default') return; 
+                    showConfirmModal('刪除作業種類', `確定要將自訂種類「${appData.homeworkTypes[idx].name}」刪除嗎？`, async () => {
+                        appData.homeworkTypes.splice(idx, 1); await saveData(); renderHomeworkTypesPage(); showToast("已刪除該自訂作業種類。", "info");
+                    });
+                    return;
+                }
+                if (e.target.classList.contains('add-status-btn')) {
+                    const idx = parseInt(e.target.dataset.typeIndex); 
+                    if (appData.homeworkTypes[idx].statuses.length >= 4) { showToast("每個種類最多支援 4 個核心狀態", "error"); return; }
+                    appData.homeworkTypes[idx].statuses.push({ key: `s${Date.now()}`, text: '新狀態', color: 'bg-slate-200', textColor: 'text-slate-500', isCompleted: false });
+                    await saveData(); renderHomeworkTypesPage(); showToast("已新增一個狀態！"); return;
+                }
+                if (e.target.classList.contains('delete-status-btn')) {
+                    const typeIdx = parseInt(e.target.dataset.typeIndex), statusIdx = parseInt(e.target.dataset.statusIndex);
+                    if (appData.homeworkTypes[typeIdx].statuses.length <= 2) { showToast("每個種類最少需要 2 個狀態以利切換", "error"); return; }
+                    appData.homeworkTypes[typeIdx].statuses.splice(statusIdx, 1); await saveData(); renderHomeworkTypesPage(); showToast("已移除狀態。"); return;
+                }
+                if (e.target.classList.contains('color-dot')) {
+                    const typeIdx = parseInt(e.target.dataset.typeIndex), statusIdx = parseInt(e.target.dataset.statusIndex);
+                    const currentClass = appData.homeworkTypes[typeIdx].statuses[statusIdx].color;
+                    let colorIndex = STATUS_COLORS.findIndex(c => c.class === currentClass); if(colorIndex === -1) colorIndex = 0;
+                    const nextColor = STATUS_COLORS[(colorIndex + 1) % STATUS_COLORS.length];
+                    appData.homeworkTypes[typeIdx].statuses[statusIdx].color = nextColor.class; appData.homeworkTypes[typeIdx].statuses[statusIdx].textColor = nextColor.textClass;
+                    await saveData(); renderHomeworkTypesPage(); return;
+                }
+            });
+
+            typesList.addEventListener('change', async (e) => {
+                if (e.target.classList.contains('type-name-input')) { appData.homeworkTypes[parseInt(e.target.dataset.typeIndex)].name = e.target.value.trim(); await saveData(); }
+                if (e.target.classList.contains('status-name-input')) { appData.homeworkTypes[parseInt(e.target.dataset.typeIndex)].statuses[parseInt(e.target.dataset.statusIndex)].text = e.target.value.trim(); await saveData(); }
+                if (e.target.classList.contains('is-completed-check')) { appData.homeworkTypes[parseInt(e.target.dataset.typeIndex)].statuses[parseInt(e.target.dataset.statusIndex)].isCompleted = e.target.checked; await saveData(); }
+            });
+        }
+
+        bindChange('sort-homework', renderHomeworkList);
+        bindChange('sort-student-detail', renderStudentDetailsPage);
+
+        bindSubmit('add-class-form', async (e) => {
+            e.preventDefault(); const className = document.getElementById('class-name').value.trim();
+            if(className) {
+                appData.classes.push({ id: generateId(), name: className, contactBook: {} }); await saveData(); document.getElementById('class-name').value = ''; renderClassSelector(); renderClassList();
+                if(!currentClassId) { currentClassId = appData.classes[0].id; localStorage.setItem('currentClassId', currentClassId); renderHomeworkList(); }
+                closeModal(document.getElementById('manage-classes-modal')); showToast(`已成功新增班級「${className}」！`, "success");
+            }
+        });
+
+        const hwListEl = document.getElementById('homework-list');
+        if(hwListEl) hwListEl.addEventListener('click', (e) => {
+            const deleteBtn = e.target.closest('.delete-hw-btn'), editBtn = e.target.closest('.edit-hw-btn');
+            if (deleteBtn) {
+                e.stopPropagation(); const homeworkId = deleteBtn.dataset.id; const hw = appData.homeworks.find(h => h.id === homeworkId);
+                showConfirmModal('擦除作業點收項目', `確定要將「${hw.name}」完全從系統移出嗎？此操作無法恢復。`, async () => { appData.homeworks = appData.homeworks.filter(h => h.id !== homeworkId); await saveData(); showToast("作業已被刪除。", "info"); renderHomeworkList(); }); return;
+            }
+            if (editBtn) {
+                e.stopPropagation(); const homeworkId = editBtn.dataset.id; const hw = appData.homeworks.find(h => h.id === homeworkId);
+                const modal = document.getElementById('add-homework-modal'); document.getElementById('homework-modal-title').textContent = '更改作業名稱'; modal.querySelector('form').reset();
+                document.getElementById('homework-name').value = hw ? hw.name : ''; document.getElementById('edit-homework-id').value = homeworkId; document.getElementById('student-count-container').style.display = 'none'; document.getElementById('homework-type-container').style.display = 'none'; document.getElementById('missing-seats-hint').style.display = 'none'; openModal(modal); return;
+            }
+            const hwItem = e.target.closest('[data-id]');
+            if (hwItem) { document.getElementById('detail-page').dataset.from = 'main-page'; showDetailPage(hwItem.dataset.id); }
+        });
+        
+        const classListEl = document.getElementById('class-list');
+        if(classListEl) classListEl.addEventListener('click', (e) => {
+             if (e.target.closest('.delete-class-btn')) {
+                e.stopPropagation(); const btn = e.target.closest('.delete-class-btn'); const classId = btn.dataset.id; const className = btn.dataset.name;
+                showConfirmModal('移除班級', `警告：確定要將「${className}」連同該班所有作業點收記錄一併移除嗎？這將會同步擦除所有歷史登錄！`, async () => {
+                    appData.classes = appData.classes.filter(c => c.id !== classId); appData.homeworks = appData.homeworks.filter(h => h.classId !== classId);
+                    if(currentClassId === classId) { currentClassId = appData.classes.length > 0 ? appData.classes[0].id : null; if(currentClassId) localStorage.setItem('currentClassId', currentClassId); else localStorage.removeItem('currentClassId'); }
+                    await saveData(); renderClassSelector(); renderClassList(); renderHomeworkList(); showToast("已成功移除該班級。", "info");
+                });
+             }
+        });
+
+        const studentDetailsList = document.getElementById('student-details-list');
+        if(studentDetailsList) studentDetailsList.addEventListener('click', (e) => {
+            if(e.target.classList.contains('homework-link')) { document.getElementById('detail-page').dataset.from = 'student-details-page'; showDetailPage(e.target.dataset.id); }
+        });
+
+        bindChange('class-selector', (e) => { currentClassId = e.target.value; localStorage.setItem('currentClassId', currentClassId); renderHomeworkList(); });
+
+        bindClick('font-increase-btn', () => { blackboardFontSize += 0.1; document.getElementById('blackboard-content').style.fontSize = `${blackboardFontSize}rem`; localStorage.setItem('hw_pref_fontSize', blackboardFontSize); });
+        bindClick('font-decrease-btn', () => { if(blackboardFontSize > 0.5) { blackboardFontSize -= 0.1; document.getElementById('blackboard-content').style.fontSize = `${blackboardFontSize}rem`; localStorage.setItem('hw_pref_fontSize', blackboardFontSize); } });
+        bindClick('lineheight-increase-btn', () => { blackboardLineHeight += 0.2; document.getElementById('blackboard-content').style.lineHeight = `${blackboardLineHeight}`; localStorage.setItem('hw_pref_lineHeight', blackboardLineHeight); });
+        bindClick('lineheight-decrease-btn', () => { if(blackboardLineHeight > 1.0) { blackboardLineHeight -= 0.2; document.getElementById('blackboard-content').style.lineHeight = `${blackboardLineHeight}`; localStorage.setItem('hw_pref_lineHeight', blackboardLineHeight); } });
+
+        bindSubmit('add-contact-item-form', async (e) => {
+            e.preventDefault(); const input = document.getElementById('contact-book-input'), newItem = input.value.trim(), dateString = formatDate(selectedDate, 'YYYY-MM-DD');
+            if (newItem && currentClassId) {
+                const currentClass = appData.classes.find(c => c.id === currentClassId); if (!currentClass) return;
+                if(!currentClass.contactBook) currentClass.contactBook = {}; if(!currentClass.contactBook[dateString]) currentClass.contactBook[dateString] = [];
+                currentClass.contactBook[dateString].push(newItem); await saveData(); renderContactBookItems(); input.value = ''; showToast("已寫上黑板！", "success");
+            }
+        });
+
+        const blackboardEl = document.getElementById('blackboard-content');
+        if(blackboardEl) blackboardEl.addEventListener('click', async (e) => {
+            if (!currentClassId) return;
+            const currentClass = appData.classes.find(c => c.id === currentClassId), dateString = formatDate(selectedDate, 'YYYY-MM-DD');
+            const deleteBtn = e.target.closest('.delete-contact-item-btn');
+            if (deleteBtn) { 
+                currentClass.contactBook[dateString] = currentClass.contactBook[dateString].filter((_, index) => index !== parseInt(deleteBtn.dataset.index)); 
+                await saveData(); renderContactBookItems(); showToast("已從黑板擦除！", "info"); return; 
+            }
+            const editBtn = e.target.closest('.edit-contact-btn');
+            if (editBtn) {
+                const index = parseInt(editBtn.dataset.index), newText = prompt('請修改聯絡簿事項：', currentClass.contactBook[dateString][index]);
+                if (newText && newText.trim() !== '') { currentClass.contactBook[dateString][index] = newText.trim(); await saveData(); renderContactBookItems(); showToast("修改黑板內容成功！"); } return;
+            }
+            const toHwBtn = e.target.closest('.to-hw-btn');
+            if (toHwBtn) {
+                const index = parseInt(toHwBtn.dataset.index), modal = document.getElementById('add-homework-modal');
+                document.getElementById('homework-modal-title').textContent = '新增聯絡簿作業'; modal.querySelector('form').reset(); document.getElementById('homework-name').value = currentClass.contactBook[dateString][index]; document.getElementById('edit-homework-id').value = '';
+                document.getElementById('student-count-container').style.display = 'grid'; document.getElementById('homework-type-container').style.display = 'block'; document.getElementById('missing-seats-hint').style.display = 'block'; updateTypeSelects(); 
+                if (currentClass && currentClass.lastMaxSeat) { document.getElementById('student-count').value = currentClass.lastMaxSeat; document.getElementById('homework-missing-seats').value = currentClass.lastMissingSeats || ''; } 
+                else { const classHws = appData.homeworks.filter(h => h.classId === currentClassId); if(classHws.length > 0) { let maxSeat = 0; (classHws[classHws.length-1].students || []).forEach(s => maxSeat = Math.max(maxSeat, s.seat)); document.getElementById('student-count').value = maxSeat || 30; } else document.getElementById('student-count').value = 30; }
+                openModal(modal);
+            }
+        });
+
+        bindClick('clear-contact-book-btn', () => {
+            if (!currentClassId) return;
+            showConfirmModal('清空本日聯絡簿', `您確定要清空 ${formatDate(selectedDate)} 的所有聯絡簿事項嗎？`, async () => { appData.classes.find(c => c.id === currentClassId).contactBook[formatDate(selectedDate, 'YYYY-MM-DD')] = []; await saveData(); renderContactBookItems(); showToast("本日聯絡簿已全部清空。", "info"); });
+        });
+
+        bindClick('clear-all-contact-book-btn', () => {
+            if (!currentClassId) return;
+            showConfirmModal('刪除全部聯絡簿', `警告：您確定要刪除當前班級「所有日期」的聯絡簿內容嗎？此操作將會完全清空，且無法復原。`, async () => { appData.classes.find(c => c.id === currentClassId).contactBook = {}; await saveData(); renderContactBookItems(); showToast("全部聯絡簿記錄已清空。", "info"); });
+        });
+
+        bindClick('apply-yesterday-btn', async () => {
+            if (!currentClassId) return;
+            const yesterday = new Date(selectedDate); yesterday.setDate(selectedDate.getDate() - 1);
+            const yStr = formatDate(yesterday, 'YYYY-MM-DD'), tStr = formatDate(selectedDate, 'YYYY-MM-DD'), currentClass = appData.classes.find(c => c.id === currentClassId), yesterdayItems = currentClass?.contactBook?.[yStr];
+            if (!yesterdayItems || yesterdayItems.length === 0) { showToast('昨日沒有聯絡簿內容可供套用。', 'error'); return; }
+            showConfirmModal('套用昨日內容', '確定要用昨日的內容覆蓋今天的聯絡簿嗎？這將覆蓋本日現有內容！', async () => { if(!currentClass.contactBook) currentClass.contactBook = {}; currentClass.contactBook[tStr] = [...yesterdayItems]; await saveData(); renderContactBookItems(); showToast("已成功載入昨日內文！", "success"); });
+        });
+        
+        bindClick('open-date-picker-btn', () => { calendarDate = new Date(selectedDate); renderCalendar(); openModal(document.getElementById('date-picker-modal')); });
+        bindClick('close-date-picker-btn', () => closeModal(document.getElementById('date-picker-modal')));
+        bindClick('prev-month-btn', () => { calendarDate.setMonth(calendarDate.getMonth() - 1); renderCalendar(); });
+        bindClick('next-month-btn', () => { calendarDate.setMonth(calendarDate.getMonth() + 1); renderCalendar(); });
+        
+        const calGrid = document.getElementById('calendar-grid');
+        if(calGrid) calGrid.addEventListener('click', (e) => {
+            const dayBtn = e.target.closest('.calendar-day');
+            if (dayBtn) { selectedDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), parseInt(dayBtn.dataset.day)); renderContactBookItems(); closeModal(document.getElementById('date-picker-modal')); }
+        });
+
+        bindClick('welcome-skip-btn', () => { localStorage.setItem('hasSeenWelcome_final', 'true'); closeModal(document.getElementById('welcome-modal')); showMainPage(); if(appData.classes.length === 0) openModal(document.getElementById('manage-classes-modal')); });
+
+        bindClick('welcome-link-btn', async () => {
+            if (!window.showSaveFilePicker) { showAlertModal("瀏覽器限制", "很抱歉，您的瀏覽器不支援自動儲存本地檔案功能。系統將為您切換至「瀏覽器暫存模式」。"); localStorage.setItem('hasSeenWelcome_final', 'true'); closeModal(document.getElementById('welcome-modal')); showMainPage(); if(appData.classes.length === 0) openModal(document.getElementById('manage-classes-modal')); return; }
+            try {
+                const handle = await window.showSaveFilePicker({ suggestedName: '作業點收資料.json', types: [{ description: 'JSON 檔案', accept: { 'application/json': ['.json'] } }] });
+                fileHandle = handle; await saveFileHandle(handle); await syncFromFileHandle(); await saveData(); localStorage.setItem('hasSeenWelcome_final', 'true'); closeModal(document.getElementById('welcome-modal'));
+                setTimeout(() => { showToast("✅ 成功建立並綁定實體檔案！系統將自動即時同步變更。", "success"); }, 300);
+                showMainPage(); if(appData.classes.length === 0) openModal(document.getElementById('manage-classes-modal'));
+            } catch(e) { if (e.name !== 'AbortError') showAlertModal("無法建立檔案連結", "錯誤細節：" + e.message); }
+        });
+
+        bindClick('resume-sync-btn', async () => {
+            if (!fileHandle) return;
+            try {
+                if ((await fileHandle.requestPermission({ mode: 'readwrite' })) === 'granted') { document.getElementById('sync-banner').classList.add('hidden'); document.body.classList.remove('has-banner'); await syncFromFileHandle(); reRenderCurrentPage(); showToast("硬碟檔案連線已重新恢復！", "success"); }
+            } catch(e) { console.error(e); }
+        });
+
+        document.querySelectorAll('.cancel-btn, #close-warning-btn').forEach(btn => btn.addEventListener('click', (e) => closeModal(e.target.closest('.modal'))));
+    }
+
+    window.addEventListener('resize', () => { if (currentPage === 'detail-page' && currentHomeworkId) renderStudentGrid(currentHomeworkId); });
+
+    async function init() {
+        const localData = localStorage.getItem('homeworkAppData');
+        if (localData) { appData = JSON.parse(localData); fixDates(appData); }
+        
+        // 保證所有事件監聽器只會被安全地掛載一次
+        setupButtonEvents(); 
+        
+        document.getElementById('loading-page').classList.add('hidden');
+
+        if (!localStorage.getItem('hasSeenWelcome_final')) { openModal(document.getElementById('welcome-modal')); return; }
+        if (window.showSaveFilePicker) {
+            try {
+                fileHandle = await getFileHandle();
+                if (fileHandle && (await fileHandle.queryPermission({ mode: 'readwrite' })) !== 'granted') { document.getElementById('sync-banner').classList.remove('hidden'); document.body.classList.add('has-banner'); }
+                else if (fileHandle) await syncFromFileHandle();
+            } catch (e) { console.log("不支援 File System Access"); }
+        }
+        pushPageState({ page: 'main' }, '#main'); showMainPage(true);
+        if(appData.classes.length === 0) openModal(document.getElementById('manage-classes-modal'));
+    }
+    // =========================================================================
+    // 🖨️ 條碼掃描器支援 (Barcode Scanner Support)
+    // =========================================================================
+    let barcodeBuffer = '';
+    let barcodeTimeout = null;
+
+    document.addEventListener('keydown', (e) => {
+        // 確保目前在「作業詳細座號頁」才處理掃描
+        if (currentPage !== 'detail-page' || !currentHomeworkId) return;
+        
+        // 忽略輸入框中的輸入
+        const activeTag = document.activeElement ? document.activeElement.tagName : '';
+        if (activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT') return;
+        
+        // 條碼掃描器通常以 Enter 鍵結尾
+        if (e.key === 'Enter') {
+            if (barcodeBuffer.length > 0) {
+                const seatStr = barcodeBuffer;
+                barcodeBuffer = ''; // 清空 buffer
+                
+                const seat = parseInt(seatStr, 10);
+                if (!isNaN(seat)) {
+                    const studentBtn = document.getElementById(`btn-seat-${seat}`);
+                    if (studentBtn) {
+                        studentBtn.click(); // 模擬點擊該座號按鈕
+                        showToast(`掃描成功：${seat} 號`, 'success');
+                    } else {
+                        showToast(`掃描失敗：找不到座號 ${seat}`, 'error');
+                    }
+                }
+            }
+        } else {
+            // 收集輸入的字元，設定 200ms 的超時以區分「掃描器快速輸入」與「手動輸入」
+            if (e.key.length === 1 && /[0-9a-zA-Z-]/.test(e.key)) {
+                barcodeBuffer += e.key;
+                clearTimeout(barcodeTimeout);
+                barcodeTimeout = setTimeout(() => {
+                    barcodeBuffer = ''; 
+                }, 200);
+            }
+        }
+    });
+
+    init();
+</script>
+
+
+</body></html>
