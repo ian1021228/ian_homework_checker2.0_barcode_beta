@@ -603,8 +603,9 @@
 <!-- 改為 module 模組化載入，以便整合 Firebase SDK -->
 <script type="module">
     // --- 整合 Firebase SDK ---
+    // ✨ 修改：將 signInWithPopup 替換為 signInWithRedirect
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     let fbApp, fbAuth, fbDb;
@@ -1736,11 +1737,12 @@
             if (!fbAuth) { showAlertModal("無法登入", "尚未設定 Firebase 參數，請在程式碼的 firebaseConfig 中填入你的專案金鑰。"); return; }
             try {
                 const provider = new GoogleAuthProvider();
-                await signInWithPopup(fbAuth, provider);
-                showToast("✅ Google 帳號登入成功！", "success");
+                // ✨ 修改：改用 Redirect 跳轉登入，完美解決 GitHub Pages 阻擋 Popup 的安全限制問題
+                await signInWithRedirect(fbAuth, provider);
+                // 注意：跳轉後頁面會重新載入，因此這裡不顯示 Toast，登入成功會由 onAuthStateChanged 自動接手
             } catch (error) {
                 console.error("Login failed", error);
-                showAlertModal("登入失敗", "無法完成 Google 登入：" + error.message);
+                showAlertModal("登入跳轉失敗", "無法完成 Google 登入：" + error.message);
             }
         });
 
