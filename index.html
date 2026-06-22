@@ -142,15 +142,24 @@
                 <span class="text-xs text-slate-400 ml-auto hidden sm:block font-medium">※ 將一鍵改變全班所有座號的作業狀態</span>
             </div>
 
-            <!-- ✨ 新增：條碼快速點收輸入區塊 -->
-            <div class="mt-4 p-4 bg-white rounded-2xl border border-indigo-100 flex flex-wrap items-center gap-3 shadow-sm shadow-indigo-50 w-full relative overflow-hidden group">
-                <div class="absolute inset-0 bg-gradient-to-r from-indigo-50/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                <span class="text-sm font-bold text-indigo-700 flex items-center gap-1.5 relative z-10">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
-                    條碼快速點收：
-                </span>
-                <input type="text" id="barcode-scan-input" class="text-sm rounded-xl border-slate-200 p-2.5 focus:ring-indigo-500 focus:border-indigo-500 font-mono bg-slate-50 w-64 shadow-inner relative z-10 transition-colors" placeholder="請直接在此掃描條碼..." autocomplete="off">
-                <span class="text-xs text-slate-400 hidden sm:block font-medium relative z-10">※ 游標停在此處，掃描條碼自動切換對應座號狀態</span>
+            <!-- ✨ 修改：點收模式切換與掃描區塊 -->
+            <div class="mt-4 bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden flex flex-col w-full">
+                <!-- 模式切換按鈕 -->
+                <div class="flex bg-slate-100/80 p-1.5 gap-1.5">
+                    <button id="mode-manual-btn" class="flex-1 py-2.5 px-4 rounded-xl font-bold text-sm bg-white shadow-sm border border-slate-200/80 text-indigo-600 transition-all">👆 手動點擊模式</button>
+                    <button id="mode-scan-btn" class="flex-1 py-2.5 px-4 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 border border-transparent transition-all">📠 條碼掃描模式</button>
+                </div>
+                <!-- 掃描專屬設定區 (預設隱藏) -->
+                <div id="scan-mode-container" class="hidden p-4 bg-indigo-50/30 flex-wrap items-center gap-3 border-t border-slate-100">
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <span class="text-sm font-bold text-indigo-700 flex items-center gap-1.5 whitespace-nowrap">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm14 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path></svg>
+                            掃描後變更為：
+                        </span>
+                        <select id="scan-target-status-select" class="text-sm rounded-xl border-slate-200 p-2 focus:ring-indigo-500 focus:border-indigo-500 font-bold bg-white shadow-sm cursor-pointer"></select>
+                    </div>
+                    <input type="text" id="barcode-scan-input" class="text-sm rounded-xl border-slate-200 p-2.5 focus:ring-indigo-500 focus:border-indigo-500 font-mono bg-white shadow-inner flex-grow transition-colors min-w-[200px]" placeholder="請將游標停在此處並掃描條碼..." autocomplete="off">
+                </div>
             </div>
 
             <div id="status-summary" class="flex flex-wrap gap-2.5 mt-5 text-sm font-bold"></div>
@@ -1057,6 +1066,19 @@
             });
         }
 
+        // ✨ 動態渲染掃描目標狀態下拉選單
+        const scanSelect = document.getElementById('scan-target-status-select');
+        if (scanSelect && (scanSelect.options.length === 0 || scanSelect.dataset.typeId !== typeId)) {
+            scanSelect.innerHTML = ''; scanSelect.dataset.typeId = typeId;
+            typeConfig.statuses.forEach(s => {
+                const opt = document.createElement('option'); opt.value = s.key; opt.textContent = s.text; scanSelect.appendChild(opt);
+            });
+            // 預設自動選取該種類第一個標記為「已完成」的狀態 (例如：已繳交/已完成)
+            const completedStatus = typeConfig.statuses.find(s => s.isCompleted);
+            if (completedStatus) scanSelect.value = completedStatus.key;
+            else if (typeConfig.statuses.length > 1) scanSelect.value = typeConfig.statuses[1].key;
+        }
+
         (hw.students || []).forEach(student => {
             let statusInfo = typeConfig.statuses.find(s => s.key === student.status);
             if (!statusInfo) { statusInfo = typeConfig.statuses[0]; student.status = statusInfo.key; }
@@ -1074,10 +1096,13 @@
         });
         updateSummaryUI(hw);
         
-        // 切換進入詳細頁面時，自動讓掃描輸入框獲得焦點，方便直接掃描
+        // ✨ 切換進入詳細頁面時，若處於掃描模式，則自動讓輸入框獲得焦點
         setTimeout(() => {
+            const scanContainer = document.getElementById('scan-mode-container');
             const scanInput = document.getElementById('barcode-scan-input');
-            if (scanInput) scanInput.focus();
+            if (scanContainer && !scanContainer.classList.contains('hidden') && scanInput) {
+                scanInput.focus();
+            }
         }, 300);
     }
 
@@ -1460,6 +1485,38 @@
         bindClick('back-from-contact-book-btn', () => showMainPage());
         bindClick('back-from-types-btn', () => showMainPage());
 
+        // ✨ 模式切換器綁定邏輯
+        const modeManualBtn = document.getElementById('mode-manual-btn');
+        const modeScanBtn = document.getElementById('mode-scan-btn');
+        const scanContainer = document.getElementById('scan-mode-container');
+
+        const switchMode = (mode) => {
+            if (mode === 'manual') {
+                modeManualBtn.classList.add('bg-white', 'shadow-sm', 'border-slate-200/80', 'text-indigo-600');
+                modeManualBtn.classList.remove('text-slate-500', 'hover:text-slate-700', 'hover:bg-slate-200/50', 'border-transparent');
+                
+                modeScanBtn.classList.add('text-slate-500', 'hover:text-slate-700', 'hover:bg-slate-200/50', 'border-transparent');
+                modeScanBtn.classList.remove('bg-white', 'shadow-sm', 'border-slate-200/80', 'text-indigo-600');
+                
+                scanContainer.classList.add('hidden');
+            } else {
+                modeScanBtn.classList.add('bg-white', 'shadow-sm', 'border-slate-200/80', 'text-indigo-600');
+                modeScanBtn.classList.remove('text-slate-500', 'hover:text-slate-700', 'hover:bg-slate-200/50', 'border-transparent');
+                
+                modeManualBtn.classList.add('text-slate-500', 'hover:text-slate-700', 'hover:bg-slate-200/50', 'border-transparent');
+                modeManualBtn.classList.remove('bg-white', 'shadow-sm', 'border-slate-200/80', 'text-indigo-600');
+                
+                scanContainer.classList.remove('hidden');
+                setTimeout(() => {
+                    const scanInput = document.getElementById('barcode-scan-input');
+                    if(scanInput) scanInput.focus();
+                }, 100);
+            }
+        };
+
+        if(modeManualBtn) modeManualBtn.addEventListener('click', () => switchMode('manual'));
+        if(modeScanBtn) modeScanBtn.addEventListener('click', () => switchMode('scan'));
+
         bindClick('show-all-done-btn', () => {
             if (!currentHomeworkId) return; const hw = appData.homeworks.find(h => h.id === currentHomeworkId); if (!hw) return;
             const doneStudents = (hw.students || []).filter(s => isStudentCompleted(s, hw.typeId || 'default')); renderAllDoneList(doneStudents, 'all-done-list'); openModal(document.getElementById('all-done-modal'));
@@ -1546,18 +1603,15 @@
                         return;
                     }
 
-                    // 執行狀態切換邏輯
+                    // ✨ 修改：直接套用下拉選單所選擇的目標狀態
                     const student = hw.students[studentIndex];
                     const typeConfig = getHomeworkType(hw.typeId);
                     
-                    let currentIndex = typeConfig.statuses.findIndex(s => s.key === student.status);
-                    if (currentIndex === -1) currentIndex = 0;
-
-                    // 切換到下一個狀態
-                    const nextIndex = (currentIndex + 1) % typeConfig.statuses.length;
+                    const targetStatusKey = document.getElementById('scan-target-status-select').value;
                     const oldStatus = student.status;
-                    const newStatus = typeConfig.statuses[nextIndex].key;
+                    const newStatus = targetStatusKey;
                     
+                    // 執行狀態切換與渲染
                     hw.students[studentIndex].status = newStatus;
                     
                     // 即時渲染單一按鈕 UI
@@ -1571,7 +1625,9 @@
                         setTimeout(() => btn.classList.remove('scale-[1.1]', 'ring-indigo-400'), 250);
                     }
 
-                    showToast(`${foundSeat} 號狀態更新：${typeConfig.statuses[nextIndex].text}`, "success");
+                    // 取得新狀態名稱用於提示
+                    const targetStatusText = typeConfig.statuses.find(s => s.key === newStatus)?.text || '已更新';
+                    showToast(`${foundSeat} 號狀態更新：${targetStatusText}`, "success");
                     saveData();
                 }
             });
