@@ -365,17 +365,17 @@
                    <div id="cloud-sync-status" class="text-sm text-sky-700 mb-4 font-bold leading-relaxed relative z-10">
                        狀態：未登入，點擊下方按鈕登入以啟用雲端同步。
                    </div>
-                   <button id="google-login-btn" class="w-full bg-white text-slate-700 border border-slate-300 font-bold py-2.5 px-4 rounded-xl hover:bg-slate-50 shadow-sm mb-2 transition-colors flex items-center justify-center gap-2 relative z-10">
+                   <!-- ✨ 修改：縮小按鈕尺寸 (py-1.5 px-3 text-sm) -->
+                   <button id="google-login-btn" class="w-full bg-white text-slate-700 border border-slate-300 font-bold py-1.5 px-3 text-sm rounded-xl hover:bg-slate-50 shadow-sm mb-2 transition-colors flex items-center justify-center gap-2 relative z-10">
                        <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
                        使用 Google 帳號登入
                    </button>
                    <div id="cloud-actions" class="hidden flex flex-col gap-2 relative z-10">
-                       <button id="cloud-load-btn" class="w-full bg-sky-600 text-white font-bold py-2.5 px-4 rounded-xl hover:bg-sky-700 shadow-sm transition-colors">從雲端下載並覆蓋本地</button>
-                       <button id="google-logout-btn" class="w-full bg-white text-rose-500 border border-rose-200 font-bold py-2 px-4 rounded-xl hover:bg-rose-50 transition-colors text-xs">登出帳號</button>
+                       <button id="cloud-load-btn" class="w-full bg-sky-600 text-white font-bold py-1.5 px-3 text-sm rounded-xl hover:bg-sky-700 shadow-sm transition-colors">從雲端下載並覆蓋本地</button>
+                       <button id="google-logout-btn" class="w-full bg-white text-rose-500 border border-rose-200 font-bold py-1.5 px-3 text-xs rounded-xl hover:bg-rose-50 transition-colors">登出帳號</button>
                    </div>
                    
-                   <!-- ✨ 空間使用量顯示區 -->
-                   <div id="cloud-storage-container" class="hidden mt-4 bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-sky-100 shadow-sm relative z-10">
+                   <!-- 空間使用量顯示區 -->
                        <div class="flex justify-between items-center mb-2">
                            <span class="text-xs font-bold text-slate-600">雲端空間使用量 (單檔上限 1MB)</span>
                            <span id="cloud-storage-text" class="text-xs font-black text-sky-600">計算中...</span>
@@ -401,8 +401,9 @@
                    <div id="current-file-status" class="text-sm text-indigo-700 mb-4 font-bold leading-relaxed">
                        狀態：未綁定本地檔案 (資料僅存在瀏覽器)
                    </div>
-                   <button id="link-file-btn" class="w-full bg-indigo-600 text-white font-bold py-2.5 px-4 rounded-xl hover:bg-indigo-700 shadow-sm mb-2 transition-colors">建立 / 綁定本地儲存檔案</button>
-                   <button id="unlink-file-btn" class="w-full bg-white text-rose-500 border border-rose-200 font-bold py-2.5 px-4 rounded-xl hover:bg-rose-50 transition-colors hidden">解除安全連結</button>
+                   <!-- ✨ 修改：縮小按鈕尺寸 -->
+                   <button id="link-file-btn" class="w-full bg-indigo-600 text-white font-bold py-1.5 px-3 text-sm rounded-xl hover:bg-indigo-700 shadow-sm mb-2 transition-colors">建立 / 綁定本地儲存檔案</button>
+                   <button id="unlink-file-btn" class="w-full bg-white text-rose-500 border border-rose-200 font-bold py-1.5 px-3 text-sm rounded-xl hover:bg-rose-50 transition-colors hidden">解除安全連結</button>
                </div>
 
                <div class="relative flex py-2 items-center">
@@ -437,17 +438,19 @@
                            聯絡簿 (包含 30 天內記錄)
                        </label>
                    </div>
-                   <button id="export-data-btn" class="w-full bg-slate-800 text-white font-bold py-2.5 px-4 rounded-xl hover:bg-slate-900 transition-colors mb-5">下載為 JSON 檔</button>
+                   <!-- ✨ 修改：縮小按鈕尺寸 -->
+                   <button id="export-data-btn" class="w-full bg-slate-800 text-white font-bold py-1.5 px-3 text-sm rounded-xl hover:bg-slate-900 transition-colors mb-5">下載為 JSON 檔</button>
                    
                    <h3 class="font-bold text-slate-800 mb-2 border-t border-slate-200 pt-5">手動還原</h3>
                    <p class="text-xs text-rose-500 mb-3 font-bold">警告：這將覆蓋現有資料！</p>
                    <input type="file" id="import-file-input" accept=".json" class="hidden">
-                   <button id="trigger-import-btn" class="w-full bg-white text-rose-600 border border-rose-200 font-bold py-2.5 px-4 rounded-xl hover:bg-rose-50 shadow-sm transition-colors">選擇檔案並覆蓋還原</button>
+                   <button id="trigger-import-btn" class="w-full bg-white text-rose-600 border border-rose-200 font-bold py-1.5 px-3 text-sm rounded-xl hover:bg-rose-50 shadow-sm transition-colors">選擇檔案並覆蓋還原</button>
                </div>
            </div>
 
            <div class="flex justify-end pt-5 mt-5 border-t border-slate-100">
-               <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-2.5 px-6 rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+               <!-- ✨ 修改：縮小按鈕尺寸 -->
+               <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-1.5 px-4 text-sm rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
            </div>
        </div>
     </div>
@@ -465,14 +468,14 @@
                     <h3 class="text-sm font-bold text-amber-900">智慧連續條碼設定</h3>
                     <p class="text-[11px] text-amber-700 leading-tight mt-0.5">請在下方欄位手動輸入 1號 到 3號 的條碼，系統將自動分析等差數列 (支援遞增/遞減) 並推算全班規律。</p>
                 </div>
-                <button id="auto-gen-barcodes-btn" class="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-3 py-2.5 rounded-lg hover:from-amber-500 hover:to-orange-600 transition-colors shadow-sm whitespace-nowrap relative z-10">自動推算填滿</button>
+                <button id="auto-gen-barcodes-btn" class="bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-bold px-2 py-1.5 rounded-lg hover:from-amber-500 hover:to-orange-600 transition-colors shadow-sm whitespace-nowrap relative z-10">自動推算填滿</button>
             </div>
 
             <!-- 班級人數設定區塊 -->
             <div class="flex items-center gap-3 mb-4 bg-indigo-50/50 p-3 rounded-xl border border-indigo-100/60 shadow-sm">
                 <label for="barcode-max-seat" class="text-sm font-bold text-indigo-900 whitespace-nowrap">班級人數：</label>
                 <input type="number" id="barcode-max-seat" min="1" max="100" class="block w-20 rounded-lg border-slate-200 bg-white p-2 text-sm font-bold shadow-sm focus:ring-indigo-500 focus:border-indigo-500 transition-colors text-center" value="30">
-                <button id="update-barcode-seats-btn" class="bg-indigo-600 text-white text-xs font-bold px-3 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm whitespace-nowrap ml-auto">套用人數</button>
+                <button id="update-barcode-seats-btn" class="bg-indigo-600 text-white text-xs font-bold px-2 py-1.5 rounded-lg hover:bg-indigo-700 transition-colors shadow-sm whitespace-nowrap ml-auto">套用人數</button>
             </div>
 
             <div id="barcode-inputs-container" class="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
@@ -480,8 +483,8 @@
             </div>
 
             <div class="flex justify-end space-x-3 pt-5 mt-5 border-t border-slate-100">
-                <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-2.5 px-5 rounded-xl hover:bg-slate-200 transition-colors">取消</button>
-                <button id="save-barcodes-btn" class="bg-indigo-600 text-white font-bold py-2.5 px-6 rounded-xl shadow-md hover:bg-indigo-700 transition-colors tracking-wide">儲存條碼配置</button>
+                <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-1.5 px-4 text-sm rounded-xl hover:bg-slate-200 transition-colors">取消</button>
+                <button id="save-barcodes-btn" class="bg-indigo-600 text-white font-bold py-1.5 px-4 text-sm rounded-xl shadow-md hover:bg-indigo-700 transition-colors tracking-wide">儲存條碼配置</button>
             </div>
         </div>
     </div>
@@ -513,8 +516,8 @@
                 <p id="missing-seats-hint" class="text-xs text-slate-400 mt-1 leading-relaxed font-medium">※ 支援逗號隔開 (例: 1,3) 或連字號設定範圍 (例: 20-25)。<br>※ 填寫的缺號將被直接排除於此作業名單中。</p>
 
                 <div class="flex justify-end space-x-3 pt-5 mt-2 border-t border-slate-100">
-                    <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-2.5 px-5 rounded-xl hover:bg-slate-200 transition-colors">取消</button>
-                    <button type="submit" class="bg-indigo-600 text-white font-bold py-2.5 px-6 rounded-xl shadow-md hover:bg-indigo-700 transition-colors">儲存作業</button>
+                    <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-1.5 px-4 text-sm rounded-xl hover:bg-slate-200 transition-colors">取消</button>
+                    <button type="submit" class="bg-indigo-600 text-white font-bold py-1.5 px-4 text-sm rounded-xl shadow-md hover:bg-indigo-700 transition-colors">儲存作業</button>
                 </div>
             </form>
         </div>
@@ -526,12 +529,12 @@
             <h2 class="text-2xl font-extrabold mb-6 text-slate-900">管理班級</h2>
             <form id="add-class-form" class="flex gap-2 mb-6">
                  <input type="text" id="class-name" class="flex-grow block w-full rounded-xl border-slate-200 bg-slate-50 focus:bg-white shadow-sm p-3 text-base font-medium transition-colors" required placeholder="例如：六年二班">
-                 <button type="submit" class="bg-slate-800 text-white font-bold py-3 px-5 rounded-xl shadow-md hover:bg-slate-900 transition-colors whitespace-nowrap">新增班級</button>
+                 <button type="submit" class="bg-slate-800 text-white font-bold py-1.5 px-4 text-sm rounded-xl shadow-md hover:bg-slate-900 transition-colors whitespace-nowrap">新增班級</button>
             </form>
             <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 font-black">現有班級清單</h3>
             <div id="class-list" class="space-y-2 max-h-60 overflow-y-auto pr-1 custom-scrollbar"></div>
             <div class="flex justify-end pt-5 mt-5 border-t border-slate-100">
-                <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-2.5 px-6 rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+                <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-1.5 px-4 text-sm rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
             </div>
         </div>
     </div>
@@ -553,7 +556,42 @@
             </div>
             <div id="calendar-grid" class="grid grid-cols-7 gap-1 sm:gap-2"></div>
             <div class="flex justify-end mt-6 pt-4 border-t border-slate-100">
-                <button id="close-date-picker-btn" class="bg-slate-100 text-slate-600 font-bold py-2.5 px-6 rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+                <button id="close-date-picker-btn" class="bg-slate-100 text-slate-600 font-bold py-1.5 px-4 text-sm rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 已完成名單 Modal -->
+    <div id="all-done-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden modal z-50 opacity-0">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg transform scale-95 border border-slate-100">
+            <h2 class="text-2xl font-extrabold mb-6 text-slate-900">完成 / 已繳交學生名單</h2>
+            <div id="all-done-list" class="grid grid-cols-4 sm:grid-cols-6 gap-3 max-h-96 overflow-y-auto pr-1 custom-scrollbar"></div>
+            <div class="flex justify-end pt-6 mt-4 border-t border-slate-100">
+                <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-1.5 px-4 text-sm rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 全勤名單 Modal -->
+    <div id="overall-all-done-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden modal z-50 opacity-0">
+        <div class="modal-content bg-white rounded-2xl shadow-2xl p-8 w-full max-w-lg transform scale-95 border border-slate-100">
+            <h2 class="text-2xl font-extrabold mb-2 text-slate-900">🏆 全勤榮譽名單</h2>
+            <p class="text-sm text-slate-500 mb-6">此處列出在當前班級的所有作業中，狀態皆為「已完成/已繳交」的學生。</p>
+            <div id="overall-all-done-list" class="grid grid-cols-4 sm:grid-cols-6 gap-3 max-h-96 overflow-y-auto pr-1 custom-scrollbar"></div>
+            <div class="flex justify-end pt-6 mt-4 border-t border-slate-100">
+                <button type="button" class="cancel-btn bg-slate-100 text-slate-600 font-bold py-1.5 px-4 text-sm rounded-xl hover:bg-slate-200 transition-colors">關閉</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 確認視窗 Modal -->
+    <div id="confirm-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-md flex items-center justify-center p-4 hidden confirm-modal z-[60] opacity-0">
+        <div class="confirm-modal-content bg-white rounded-2xl shadow-2xl p-8 w-full max-w-sm transform scale-95 border border-slate-100">
+            <h2 id="confirm-title" class="text-xl font-extrabold mb-3 text-slate-900">確定要執行嗎？</h2>
+            <p id="confirm-message" class="text-slate-600 mb-8 leading-relaxed font-medium"></p>
+            <div class="flex justify-end space-x-3">
+                <button id="confirm-cancel" class="bg-slate-100 text-slate-600 font-bold py-1.5 px-4 text-sm rounded-xl hover:bg-slate-200 transition-colors">取消</button>
+                <button id="confirm-ok" class="bg-rose-500 text-white font-bold py-1.5 px-4 text-sm rounded-xl shadow-md hover:bg-rose-600 transition-colors">確定執行</button>
             </div>
         </div>
     </div>
@@ -603,9 +641,9 @@
 <!-- 改為 module 模組化載入，以便整合 Firebase SDK -->
 <script type="module">
     // --- 整合 Firebase SDK ---
-    // ✨ 修改：將 signInWithPopup 替換為 signInWithRedirect
+    // ✨ 修改：引入 getRedirectResult 以攔截並顯示錯誤
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInWithRedirect, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
     let fbApp, fbAuth, fbDb;
@@ -613,7 +651,6 @@
     const globalAppId = typeof __app_id !== 'undefined' ? __app_id : 'homework-checker-pro';
 
     try {
-        // ✨ 已替換為你的專屬 Firebase 配置
         const firebaseConfig = {
             apiKey: "AIzaSyDuBAZ5hEcrhpYt-XjhiXfi-wuow0Cq83A",
             authDomain: "cheker-barcode.firebaseapp.com",
@@ -627,6 +664,14 @@
         fbAuth = getAuth(fbApp);
         fbDb = getFirestore(fbApp);
         
+        // ✨ 新增：捕捉跳轉登入後的成功與失敗狀態
+        getRedirectResult(fbAuth).then((result) => {
+            if (result) window.showToast("✅ Google 帳號登入成功！", "success");
+        }).catch((error) => {
+            console.error("Redirect login error:", error);
+            window.showAlertModal("登入被阻擋或失敗", "無法完成 Google 登入：" + error.message + "\n\n💡 必做檢查：請確認您已經前往 Firebase 後台的 Authentication -> Settings -> Authorized domains，將「ian1021228.github.io」加入白名單中！");
+        });
+
         // 監聽登入狀態
         onAuthStateChanged(fbAuth, (user) => {
             currentUser = user;
