@@ -535,12 +535,11 @@
         Created by Boai 602 王禹硯
     </footer>
 
-<!-- 改為 module 模組化載入，整合 Firebase SDK -->
+<!-- 改為 module 模組化載入，整合 Firebase SDK (根據指定專案參考修改為 10.8.1 及支援 Popup/離線持久化) -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    // ✨ 修復：將 signInWithRedirect 與 getRedirectResult 加回匯入清單中
-    import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     let fbApp, fbAuth, fbDb;
     let currentUser = null;
@@ -563,19 +562,14 @@
         fbAuth = getAuth(fbApp);
         fbDb = getFirestore(fbApp);
 
-        // ✨ 新增：處理跳轉回來的結果與錯誤
-        getRedirectResult(fbAuth).then((result) => {
-            if (result) window.showToast("✅ Google 帳號登入成功！", "success");
-        }).catch((error) => {
-            console.error("Redirect login error:", error);
-            window.showAlertModal("登入被阻擋或失敗", "錯誤細節：" + error.message + "\n\n💡 必做檢查：請確定您已在 Firebase 控制台的 Authentication -> Settings -> Authorized domains 加入您的網域。");
-        });
+        // ✨ 加入離線資料庫持久化支援 (與參考專案一致，增強穩定性)
+        enableIndexedDbPersistence(fbDb).catch(err => console.warn("Offline DB unavailable", err));
 
         onAuthStateChanged(fbAuth, async (user) => {
             currentUser = user;
             updateDataManagementUI();
             
-            // ✨ 智慧復原機制：若登入後發現本地是完全空的(例如清除了快取)，自動從雲端載入！
+            // 智慧復原機制：若登入後發現本地是完全空的(例如清除了快取)，自動從雲端載入！
             if (user && isLocalEmptyOnBoot) {
                 window.showToast("⏳ 正在從雲端同步您的資料...", "info");
                 await loadDataFromCloud(true);
@@ -1416,25 +1410,17 @@
             });
         }
 
-        bindClick('google-login-btn', async () => {
+        bindClick('google-login-btn', () => {
             if (!fbAuth) { window.showAlertModal("無法登入", "尚未設定 Firebase 參數。"); return; }
-            try {
-                const provider = new GoogleAuthProvider();
-                
-                // ✨ 改回最無敵的「跳轉登入」，繞開所有 Popup 的安全阻擋！
-                window.showToast("準備為您跳轉至 Google 登入...", "info");
-                
-                // 為了讓 Toast 顯示出來再跳轉，稍微延遲一點點時間
-                setTimeout(() => {
-                    signInWithRedirect(fbAuth, provider).catch(err => {
-                        window.showAlertModal("跳轉失敗", err.message);
-                    });
-                }, 800);
-                
-            } catch (error) {
-                console.error("Login trigger failed", error);
-                window.showAlertModal("登入錯誤", "無法啟動 Google 登入：" + error.message);
-            }
+            window.showToast("正在開啟登入視窗...", "info");
+            signInWithPopup(fbAuth, new GoogleAuthProvider()).catch((error) => {
+                console.error("Login failed", error);
+                if (error.code === 'auth/popup-closed-by-user') {
+                    window.showToast("已取消登入", "info");
+                } else {
+                    window.showAlertModal("登入被阻擋或失敗", "錯誤細節：" + error.message);
+                }
+            });
         });
 
         bindClick('google-logout-btn', async () => { if (!fbAuth) return; try { await signOut(fbAuth); window.showToast("已安全登出。", "info"); } catch(e) { console.error("Logout err", e); } });
