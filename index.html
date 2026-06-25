@@ -14,6 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
     
     <style>
+        /* ✨ 縮小所有物件 20% (由預設 100% 縮小至 80%) */
+        html { font-size: 80% !important; }
+
         body {
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
             padding-bottom: 40px;
@@ -534,6 +537,7 @@
 
 <!-- 改為 module 模組化載入，整合 Firebase SDK -->
 <script type="module">
+    // ✨ 修改：改回使用 signInWithPopup 來避免跨網域跳轉的授權遺失問題
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
@@ -541,6 +545,8 @@
     let fbApp, fbAuth, fbDb;
     let currentUser = null;
     const globalAppId = typeof __app_id !== 'undefined' ? __app_id : 'homework-checker-pro';
+    
+    // 用於判斷是否為初次載入或剛清空快取
     let isLocalEmptyOnBoot = !localStorage.getItem('homeworkAppData');
 
     try {
@@ -561,15 +567,18 @@
             currentUser = user;
             updateDataManagementUI();
             
+            // ✨ 智慧復原機制：若登入後發現本地是完全空的(例如清除了快取)，自動從雲端載入！
             if (user && isLocalEmptyOnBoot) {
+                window.showToast("⏳ 正在從雲端同步您的資料...", "info");
                 await loadDataFromCloud(true);
-                isLocalEmptyOnBoot = false;
+                isLocalEmptyOnBoot = false; // 防止重複觸發
             }
         });
     } catch(err) {
         console.warn("Firebase 初始化失敗:", err);
     }
 
+    // --- 擬真 Toast ---
     window.showToast = function(message, type = 'success') {
         const container = document.getElementById('toast-container');
         if (!container) return;
@@ -590,6 +599,7 @@
         setTimeout(() => { toast.classList.add('translate-y-4', 'opacity-0'); setTimeout(() => toast.remove(), 300); }, 3200);
     }
 
+    // --- 擬真 Alert ---
     window.showAlertModal = function(title, message) {
         document.getElementById('confirm-title').textContent = title;
         document.getElementById('confirm-message').textContent = message;
@@ -601,6 +611,7 @@
         confirmOk.addEventListener('click', okHandler);
     }
 
+    // --- 核心資料結構 ---
     const DEFAULT_TYPES = [
         { id: 'default', name: '一般作業', statuses: [ { key: 'not-submitted', text: '未繳交', color: 'bg-slate-200', textColor: 'text-slate-500', isCompleted: false }, { key: 'submitted', text: '已繳交', color: 'bg-blue-500', textColor: 'text-white', isCompleted: true }, { key: 'needs-correction', text: '待訂正', color: 'bg-amber-400', textColor: 'text-amber-950', isCompleted: false }, { key: 'completed', text: '已完成', color: 'bg-emerald-500', textColor: 'text-white', isCompleted: true } ] },
         { id: 'reading', name: '閱讀作業', statuses: [ { key: 'unread', text: '未閱讀', color: 'bg-slate-200', textColor: 'text-slate-500', isCompleted: false }, { key: 'read', text: '已閱讀', color: 'bg-emerald-500', textColor: 'text-white', isCompleted: true } ] }
@@ -659,6 +670,7 @@
         if (keys.length > 3) keys.slice(0, keys.length - 3).forEach(k => localStorage.removeItem(k));
     }
 
+    // --- Firebase 雲端同步邏輯 ---
     let lastCloudError = null;
 
     async function syncDataToCloud() {
@@ -682,7 +694,7 @@
                     appData = cloudData; 
                     fixDates(appData); 
                     localStorage.setItem('homeworkAppData', JSON.stringify(appData)); 
-                    localStorage.setItem('hasSeenWelcome_final', 'true');
+                    localStorage.setItem('hasSeenWelcome_final', 'true'); // 防止卡在歡迎畫面
                     if (!currentClassId && appData.classes.length > 0) {
                         currentClassId = appData.classes[0].id;
                         localStorage.setItem('currentClassId', currentClassId);
@@ -708,7 +720,7 @@
 
     function saveData() {
         isSaving = true;
-        isLocalEmptyOnBoot = false;
+        isLocalEmptyOnBoot = false; // ✨ 如果使用者有存檔行為，取消自動復原以防覆蓋
         return new Promise((resolve) => {
             if (saveTimeout) clearTimeout(saveTimeout);
             saveTimeout = setTimeout(async () => {
@@ -717,7 +729,7 @@
                     if (fileHandle && (await fileHandle.queryPermission({ mode: 'readwrite' })) === 'granted') {
                         const writable = await fileHandle.createWritable(); await writable.write(JSON.stringify(appData)); await writable.close();
                     }
-                    await syncDataToCloud();
+                    await syncDataToCloud(); // 自動非同步將資料推上 Firebase
                 } catch (error) { console.error(error); } finally { isSaving = false; resolve(); }
             }, 300);
         });
@@ -1283,15 +1295,15 @@
 
         bindClick('update-barcode-seats-btn', () => {
             const newMax = parseInt(document.getElementById('barcode-max-seat').value);
-            if (isNaN(newMax) || newMax < 1 || newMax > 100) { showToast("請輸入有效人數 (1-100)", "error"); return; }
+            if (isNaN(newMax) || newMax < 1 || newMax > 100) { window.showToast("請輸入有效人數 (1-100)", "error"); return; }
             if (!currentClassId) return; const currentClass = appData.classes.find(c => c.id === currentClassId); if (!currentClass) return;
-            renderBarcodeInputs(newMax, currentClass); showToast("人數已更新，請記得儲存！", "info");
+            renderBarcodeInputs(newMax, currentClass); window.showToast("人數已更新，請記得儲存！", "info");
         });
 
         bindClick('auto-gen-barcodes-btn', () => {
-            const inputs = document.querySelectorAll('.barcode-input'); if (inputs.length < 3) { showToast("人數不足無法推算", "error"); return; }
+            const inputs = document.querySelectorAll('.barcode-input'); if (inputs.length < 3) { window.showToast("人數不足無法推算", "error"); return; }
             const code1 = inputs[0].value.trim(), code2 = inputs[1].value.trim(), code3 = inputs[2].value.trim();
-            if (!code1 || !code2 || !code3) { showToast("請先手動輸入 1 到 3 號條碼！", "error"); return; }
+            if (!code1 || !code2 || !code3) { window.showToast("請先手動輸入 1 到 3 號條碼！", "error"); return; }
 
             let prefixLen = 0; const minLen = Math.min(code1.length, code2.length, code3.length);
             while(prefixLen < minLen && code1[prefixLen] === code2[prefixLen] && code1[prefixLen] === code3[prefixLen]) prefixLen++;
@@ -1302,10 +1314,10 @@
             const numStr1 = code1.substring(prefixLen, code1.length - suffixLen), numStr2 = code2.substring(prefixLen, code2.length - suffixLen), numStr3 = code3.substring(prefixLen, code3.length - suffixLen);
             const n1 = parseInt(numStr1, 10), n2 = parseInt(numStr2, 10), n3 = parseInt(numStr3, 10);
             
-            if (isNaN(n1) || isNaN(n2) || isNaN(n3)) { showToast("無法辨識數字規則！", "error"); return; }
+            if (isNaN(n1) || isNaN(n2) || isNaN(n3)) { window.showToast("無法辨識數字規則！", "error"); return; }
             const diff1 = n2 - n1, diff2 = n3 - n2;
-            if (diff1 !== diff2) { showToast("無法推算：並非等差數列", "error"); return; }
-            if (diff1 === 0) { showToast("無法推算：數字沒有變動", "error"); return; }
+            if (diff1 !== diff2) { window.showToast("無法推算：並非等差數列", "error"); return; }
+            if (diff1 === 0) { window.showToast("無法推算：數字沒有變動", "error"); return; }
             
             const padLen = numStr1.length, prefix = code1.substring(0, prefixLen), suffix = code1.substring(code1.length - suffixLen);
             
@@ -1314,7 +1326,7 @@
                 let currentNumStr = Math.abs(currentNum).toString().padStart(padLen, '0'); if (currentNum < 0) currentNumStr = '-' + currentNumStr;
                 input.value = prefix + currentNumStr + suffix;
             });
-            showToast("✅ 已成功推算全班條碼！請點擊儲存。", "success");
+            window.showToast("✅ 已成功推算全班條碼！請點擊儲存。", "success");
         });
 
         bindClick('save-barcodes-btn', async () => {
@@ -1322,7 +1334,7 @@
             const inputs = document.querySelectorAll('.barcode-input'); currentClass.studentBarcodes = {};
             inputs.forEach(input => { const seat = input.dataset.seat; const val = input.value.trim(); if (val) currentClass.studentBarcodes[seat] = val; });
             const newMax = parseInt(document.getElementById('barcode-max-seat').value); if(!isNaN(newMax) && newMax > 0) currentClass.lastMaxSeat = newMax;
-            await saveData(); closeModal(document.getElementById('barcodes-modal')); showToast("學生條碼設定儲存成功！", "success");
+            await saveData(); closeModal(document.getElementById('barcodes-modal')); window.showToast("學生條碼設定儲存成功！", "success");
         });
 
         bindClick('back-to-main-btn', () => { const detailPage = document.getElementById('detail-page'); if (detailPage && detailPage.dataset.from === 'student-details-page') { showStudentDetailsPage(); detailPage.dataset.from = ''; } else showMainPage(); });
@@ -1331,12 +1343,12 @@
         const modeManualBtn = document.getElementById('mode-manual-btn'), modeScanBtn = document.getElementById('mode-scan-btn'), scanContainer = document.getElementById('scan-mode-container');
         const switchMode = (mode) => {
             if (mode === 'manual') {
-                modeManualBtn.className = "flex-1 py-1.5 px-3 rounded-xl font-bold text-sm bg-white shadow-sm border border-slate-200/80 text-indigo-600 transition-all";
-                modeScanBtn.className = "flex-1 py-1.5 px-3 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 border border-transparent transition-all";
+                modeManualBtn.className = "flex-1 py-2 px-4 rounded-xl font-bold text-sm bg-white shadow-sm border border-slate-200/80 text-indigo-600 transition-all";
+                modeScanBtn.className = "flex-1 py-2 px-4 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 border border-transparent transition-all";
                 scanContainer.classList.add('hidden');
             } else {
-                modeScanBtn.className = "flex-1 py-1.5 px-3 rounded-xl font-bold text-sm bg-white shadow-sm border border-slate-200/80 text-indigo-600 transition-all";
-                modeManualBtn.className = "flex-1 py-1.5 px-3 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 border border-transparent transition-all";
+                modeScanBtn.className = "flex-1 py-2 px-4 rounded-xl font-bold text-sm bg-white shadow-sm border border-slate-200/80 text-indigo-600 transition-all";
+                modeManualBtn.className = "flex-1 py-2 px-4 rounded-xl font-bold text-sm text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 border border-transparent transition-all";
                 scanContainer.classList.remove('hidden'); setTimeout(() => { const scanInput = document.getElementById('barcode-scan-input'); if(scanInput) scanInput.focus(); }, 100);
             }
         };
@@ -1380,10 +1392,10 @@
                     e.preventDefault(); const barcode = scanInput.value.trim(); scanInput.value = '';
                     if (!barcode || !currentClassId || !currentHomeworkId) return;
                     const currentClass = appData.classes.find(c => c.id === currentClassId), hw = appData.homeworks.find(h => h.id === currentHomeworkId);
-                    if (!currentClass || !hw || !currentClass.studentBarcodes) { showToast(`目前班級沒有設定任何學生條碼`, "error"); return; }
+                    if (!currentClass || !hw || !currentClass.studentBarcodes) { window.showToast(`目前班級沒有設定任何學生條碼`, "error"); return; }
                     let foundSeat = null; for (const [seat, code] of Object.entries(currentClass.studentBarcodes)) { if (code === barcode) { foundSeat = parseInt(seat); break; } }
-                    if (!foundSeat) { showToast(`找不到條碼 (${barcode}) 對應的學生`, "error"); return; }
-                    const studentIndex = hw.students.findIndex(s => s.seat === foundSeat); if (studentIndex === -1) { showToast(`${foundSeat} 號不在作業名單中`, "error"); return; }
+                    if (!foundSeat) { window.showToast(`找不到條碼 (${barcode}) 對應的學生`, "error"); return; }
+                    const studentIndex = hw.students.findIndex(s => s.seat === foundSeat); if (studentIndex === -1) { window.showToast(`${foundSeat} 號不在作業名單中`, "error"); return; }
                     const student = hw.students[studentIndex]; const typeConfig = getHomeworkType(hw.typeId);
                     const targetStatusKey = document.getElementById('scan-target-status-select').value;
                     const oldStatus = student.status, newStatus = targetStatusKey;
@@ -1391,28 +1403,29 @@
                     updateSingleStudentUI(foundSeat, oldStatus, newStatus, typeConfig); updateSummaryUI(hw);
                     const btn = document.getElementById(`btn-seat-${foundSeat}`); if (btn) { btn.classList.add('scale-[1.1]', 'ring-indigo-400'); setTimeout(() => btn.classList.remove('scale-[1.1]', 'ring-indigo-400'), 250); }
                     const targetStatusText = typeConfig.statuses.find(s => s.key === newStatus)?.text || '已更新';
-                    showToast(`${foundSeat} 號更新：${targetStatusText}`, "success"); saveData();
+                    window.showToast(`${foundSeat} 號更新：${targetStatusText}`, "success"); saveData();
                 }
             });
         }
 
         bindClick('google-login-btn', async () => {
-            if (!fbAuth) { window.showAlertModal("無法登入", "尚未設定 Firebase 參數，請在程式碼的 firebaseConfig 中填入專案金鑰。"); return; }
+            if (!fbAuth) { window.showAlertModal("無法登入", "尚未設定 Firebase 參數。"); return; }
             try {
                 const provider = new GoogleAuthProvider();
-                provider.setCustomParameters({ prompt: 'select_account' });
-                window.showToast("正在開啟登入視窗...", "info");
-                const result = await signInWithPopup(fbAuth, provider);
-                if (result && result.user) {
-                    window.showToast("✅ Google 帳號登入成功！", "success");
-                }
+                
+                // ✨ 改回最無敵的「跳轉登入」，繞開所有 Popup 的安全阻擋！
+                window.showToast("準備為您跳轉至 Google 登入...", "info");
+                
+                // 為了讓 Toast 顯示出來再跳轉，稍微延遲一點點時間
+                setTimeout(() => {
+                    signInWithRedirect(fbAuth, provider).catch(err => {
+                        window.showAlertModal("跳轉失敗", err.message);
+                    });
+                }, 800);
+                
             } catch (error) {
-                console.error("Login failed", error);
-                if (error.code === 'auth/popup-closed-by-user') {
-                    window.showToast("已取消登入", "info");
-                } else {
-                    window.showAlertModal("登入被阻擋或失敗", "無法完成 Google 登入：" + error.message);
-                }
+                console.error("Login trigger failed", error);
+                window.showAlertModal("登入錯誤", "無法啟動 Google 登入：" + error.message);
             }
         });
 
