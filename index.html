@@ -680,7 +680,7 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getAuth, signInWithPopup, getRedirectResult, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, enableIndexedDbPersistence, collection, getDocs, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { doc, setDoc, getDoc, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, collection, getDocs, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
     let fbApp, fbAuth, fbDb;
     let currentUser = null;
@@ -702,9 +702,14 @@
         
         fbApp = initializeApp(firebaseConfig);
         fbAuth = getAuth(fbApp);
-        fbDb = getFirestore(fbApp);
+        
+        // ✨ 修正 enableIndexedDbPersistence 棄用警告，改用新版 API
+        fbDb = initializeFirestore(fbApp, {
+            localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+        });
 
-        enableIndexedDbPersistence(fbDb).catch(err => console.warn("Offline DB unavailable", err));
+        // 🚧 初始化全服維護監聽
+        listenToServerConfig();
 
         getRedirectResult(fbAuth).then(async (result) => {
             if (result && result.user) {
