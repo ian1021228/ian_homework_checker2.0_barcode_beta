@@ -742,8 +742,8 @@
 
     let fbApp, fbAuth, fbDb;
     let currentUser = null;
-    let unsubProfile = null; // 用於監聽全局使用者的管理員狀態
-    let unsubServerConfig = null; // 🚧 用於監聽全服維護狀態
+    let unsubProfile = null; 
+    let unsubServerConfig = null; 
     const globalAppId = typeof __app_id !== 'undefined' ? __app_id : 'homework-checker-pro';
     
     let isLocalEmptyOnBoot = !localStorage.getItem('homeworkAppData');
@@ -761,12 +761,10 @@
         fbApp = initializeApp(firebaseConfig);
         fbAuth = getAuth(fbApp);
         
-        // ✨ 修正 enableIndexedDbPersistence 棄用警告，改用新版 API
         fbDb = initializeFirestore(fbApp, {
             localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
         });
 
-        // 🚧 初始化全服維護監聽
         listenToServerConfig();
 
         getRedirectResult(fbAuth).then(async (result) => {
@@ -797,21 +795,17 @@
             updateDataManagementUI();
             
             if (user) {
-                // 重新評估維護模式是否對此登入者免疫
                 listenToServerConfig();
 
-                // 🛡️ Admin Check
                 if (user.email === 'ianw.solar@gmail.com') {
                     document.getElementById('admin-btn')?.classList.remove('hidden');
                 } else {
                     document.getElementById('admin-btn')?.classList.add('hidden');
                 }
 
-                // 啟動管理員推播監聽器與用戶分析寫入
                 await syncUserProfile();
                 listenToProfile();
 
-                // 處理一般網頁重新整理時的登入狀態
                 if (isLocalEmptyOnBoot && localStorage.getItem('hasSeenWelcome_final')) {
                     window.showToast("⏳ 正在從雲端同步您的資料...", "info");
                     const hasData = await loadDataFromCloud(true);
@@ -830,7 +824,6 @@
         console.warn("Firebase 初始化失敗:", err);
     }
 
-    // --- 擬真 Toast ---
     window.showToast = function(message, type = 'success') {
         const container = document.getElementById('toast-container');
         if (!container) return;
@@ -851,7 +844,6 @@
         setTimeout(() => { toast.classList.add('translate-y-4', 'opacity-0'); setTimeout(() => toast.remove(), 300); }, 3200);
     }
 
-    // --- 擬真 Alert ---
     window.showAlertModal = function(title, message) {
         document.getElementById('confirm-title').textContent = title;
         document.getElementById('confirm-message').textContent = message;
@@ -863,7 +855,6 @@
         confirmOk.addEventListener('click', okHandler);
     }
 
-    // --- 核心資料結構 ---
     const DEFAULT_TYPES = [
         { id: 'default', name: '一般作業', statuses: [ { key: 'not-submitted', text: '未繳交', color: 'bg-slate-200', textColor: 'text-slate-500', isCompleted: false }, { key: 'submitted', text: '已繳交', color: 'bg-blue-500', textColor: 'text-white', isCompleted: true }, { key: 'needs-correction', text: '待訂正', color: 'bg-amber-400', textColor: 'text-amber-950', isCompleted: false }, { key: 'completed', text: '已完成', color: 'bg-emerald-500', textColor: 'text-white', isCompleted: true } ] },
         { id: 'reading', name: '閱讀作業', statuses: [ { key: 'unread', text: '未閱讀', color: 'bg-slate-200', textColor: 'text-slate-500', isCompleted: false }, { key: 'read', text: '已閱讀', color: 'bg-emerald-500', textColor: 'text-white', isCompleted: true } ] }
@@ -896,7 +887,6 @@
         if (document.visibilityState === 'visible' && fileHandle && !isSaving) { try { if ((await fileHandle.queryPermission({ mode: 'read' })) === 'granted') await syncFromFileHandleSilently(); } catch (e) {} }
     });
 
-    // ✨ 應用點收模式
     function applyCheckMode(mode) {
         currentCheckMode = mode;
         localStorage.setItem('checkMode', mode);
@@ -925,7 +915,6 @@
         }
     }
 
-    // 🚧 全服維護模式監聽器
     function listenToServerConfig() {
         if (!fbDb || !currentUser) return;
         
@@ -964,7 +953,6 @@
         });
     }
 
-    // 🛡️ 系統控管監聽器 (即時捕捉管理員操作)
     function listenToProfile() {
         if (!currentUser || !fbDb) return;
         const userProfileRef = doc(fbDb, 'artifacts', globalAppId, 'public', 'data', 'userProfiles', currentUser.uid);
@@ -973,7 +961,6 @@
                 const data = docSnap.data();
                 const isAdmin = currentUser.email === 'ianw.solar@gmail.com';
                 
-                // 🔒 1. 處理鎖定防禦機制 (加入管理員豁免)
                 const lockScreen = document.getElementById('system-lock-screen');
                 if (data.isLocked && !isAdmin) {
                     if (lockScreen) lockScreen.classList.remove('hidden');
@@ -981,7 +968,6 @@
                     if (lockScreen) lockScreen.classList.add('hidden');
                 }
 
-                // 📢 2. 處理系統廣播橫幅
                 if (data.bannerActive && data.bannerMessage && data.bannerId) {
                     const dismissed = localStorage.getItem('dismissed_banner_' + data.bannerId);
                     if (!dismissed) {
@@ -997,7 +983,6 @@
                     }
                 }
 
-                // ⚠️ 3. 處理強制遠端重置指令
                 if (data.forceReset) {
                     performRemoteReset();
                 }
@@ -1007,7 +992,6 @@
         });
     }
 
-    // 🛡️ 紀錄使用者佔用與上線時間
     async function syncUserProfile() {
         if (!fbDb) return;
         try {
@@ -1015,7 +999,6 @@
             const currentDataSizeKB = (fullBytes / 1024).toFixed(1);
             
             if (currentUser) {
-                // 已登入會員寫入
                 const userProfileRef = doc(fbDb, 'artifacts', globalAppId, 'public', 'data', 'userProfiles', currentUser.uid);
                 await setDoc(userProfileRef, {
                     email: currentUser.email,
@@ -1025,7 +1008,6 @@
                     dataSizeKB: currentDataSizeKB
                 }, { merge: true });
             } else {
-                // 🛡️ 未登入訪客足跡追蹤 (發射器)
                 let visitorId = localStorage.getItem('visitor_id');
                 if (!visitorId) {
                     visitorId = 'guest_' + generateId();
@@ -1041,11 +1023,10 @@
                 }, { merge: true });
             }
         } catch(err) {
-            console.warn("syncUserProfile err", err); // 訪客寫入若因網路或規則失敗，不阻擋主程式
+            console.warn("syncUserProfile err", err);
         }
     }
 
-    // ⚠️ 執行遠端重置
     async function performRemoteReset() {
         appData = { classes: [], homeworks: [], homeworkTypes: JSON.parse(JSON.stringify(DEFAULT_TYPES)) };
         localStorage.setItem('homeworkAppData', JSON.stringify(appData));
@@ -1055,7 +1036,7 @@
             await setDoc(docRef, { data: JSON.stringify(appData), updatedAt: new Date().toISOString() });
             
             const userProfileRef = doc(fbDb, 'artifacts', globalAppId, 'public', 'data', 'userProfiles', currentUser.uid);
-            await updateDoc(userProfileRef, { forceReset: false }); // 標記已完成重置
+            await updateDoc(userProfileRef, { forceReset: false }); 
         }
         
         const lockScreen = document.getElementById('system-lock-screen');
@@ -1066,7 +1047,6 @@
         setTimeout(() => window.location.reload(), 2000);
     }
 
-    // 🚧 載入管理員後台維護狀態
     async function loadServerConfigForAdmin() {
         if (!fbDb || currentUser?.email !== 'ianw.solar@gmail.com') return;
         try {
@@ -1082,11 +1062,10 @@
         } catch(e) { console.error("Load config error", e); }
     }
 
-    // 🛡️ 管理員專用：讀取全局用戶清單
     async function loadAllUsersForAdmin() {
         if (currentUser?.email !== 'ianw.solar@gmail.com') return;
         
-        loadServerConfigForAdmin(); // 順便載入全服設定
+        loadServerConfigForAdmin();
 
         const usersList = document.getElementById('admin-users-list');
         usersList.innerHTML = '<tr><td colspan="5" class="text-center p-6 text-slate-500 font-bold">📡 正在載入全球伺服器資料...</td></tr>';
@@ -1141,7 +1120,6 @@
                 usersList.appendChild(tr);
             });
 
-            // 綁定管理操作事件
             document.querySelectorAll('.toggle-lock-btn').forEach(btn => {
                 btn.addEventListener('click', async (e) => {
                     const id = e.target.dataset.id;
@@ -1216,7 +1194,6 @@
         if (keys.length > 3) keys.slice(0, keys.length - 3).forEach(k => localStorage.removeItem(k));
     }
 
-    // --- Firebase 雲端同步邏輯 ---
     let lastCloudError = null;
 
     async function syncDataToCloud() {
@@ -1278,7 +1255,7 @@
                         const writable = await fileHandle.createWritable(); await writable.write(JSON.stringify(appData)); await writable.close();
                     }
                     await syncDataToCloud();
-                    await syncUserProfile(); // 🛡️ 更新管理員可見之儲存容量 (包含訪客追蹤更新)
+                    await syncUserProfile();
                 } catch (error) { console.error(error); } finally { isSaving = false; resolve(); }
             }, 300);
         });
@@ -1308,6 +1285,7 @@
     }
 
     function formatDate(date, format) {
+        if (!date || !(date instanceof Date)) return '';
         const year = date.getFullYear(), month = date.getMonth() + 1, day = date.getDate();
         if (format === 'YYYY-MM-DD') return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         return `${year}/${month}/${day}`;
@@ -1676,7 +1654,6 @@
         const statusText = document.getElementById('current-file-status'), linkBtn = document.getElementById('link-file-btn'), unlinkBtn = document.getElementById('unlink-file-btn'), backupList = document.getElementById('auto-backup-list');
         const cloudStatus = document.getElementById('cloud-sync-status'), loginBtn = document.getElementById('google-login-btn'), cloudActions = document.getElementById('cloud-actions');
         
-        // Firebase Cloud Sync UI
         if (currentUser) {
             if(cloudStatus) cloudStatus.innerHTML = `狀態：已安全登入 <br><span class="text-sky-900 font-bold bg-white px-3 py-1.5 rounded-xl inline-block mt-2 shadow-sm border border-sky-100 text-[11px] tracking-wide">👤 ${currentUser.displayName || currentUser.email}</span>`;
             if(loginBtn) loginBtn.classList.add('hidden');
@@ -1690,7 +1667,6 @@
             const storageContainer = document.getElementById('cloud-storage-container'); if(storageContainer) storageContainer.classList.add('hidden');
         }
 
-        // Local Storage UI
         if(!statusText) return;
         if (fileHandle) {
             statusText.innerHTML = `狀態：已安全對齊本地檔案 <br><span class="text-indigo-900 font-bold bg-white px-2 py-1 rounded-lg inline-block mt-2 shadow-sm border border-indigo-100 text-[11px] tracking-wide">📄 ${fileHandle.name}</span>`;
@@ -1701,7 +1677,7 @@
         }
         
         if (!window.showSaveFilePicker) {
-            statusText.textContent = "您的瀏覽器不支援硬碟直寫，請定時手動下載備份。"; statusText.className = "text-[11px] font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-100 mb-3";
+            statusText.textContent = "您的瀏覽器不支援硬碟直寫，請定時手手動下載備份。"; statusText.className = "text-[11px] font-bold text-rose-600 bg-rose-50 p-2.5 rounded-xl border border-rose-100 mb-3";
             linkBtn.classList.add('hidden'); unlinkBtn.classList.add('hidden');
         }
 
@@ -1801,7 +1777,6 @@
         document.getElementById('welcome-step-2').classList.remove('hidden');
     }
 
-    // --- 事件綁定 ---
     function setupButtonEvents() {
         const bindClick = (id, handler) => { const el = document.getElementById(id); if (el) el.addEventListener('click', handler); };
         const bindChange = (id, handler) => { const el = document.getElementById(id); if (el) el.addEventListener('change', handler); };
@@ -1809,13 +1784,11 @@
 
         bindClick('intro-btn', () => openModal(document.getElementById('intro-modal')));
         
-        // 🛡️ 管理員後台按鈕
         bindClick('admin-btn', () => {
             openModal(document.getElementById('admin-modal'));
             loadAllUsersForAdmin();
         });
 
-        // 🚧 全服維護設定發布按鈕
         const applyMaintenanceBtn = document.getElementById('admin-apply-maintenance-btn');
         if (applyMaintenanceBtn) {
             applyMaintenanceBtn.addEventListener('click', async () => {
